@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>How to generate Text Embeddings with FastEmbed – python applied machine learning</title>
+<title>production_ready – python applied machine learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./003_fastembed_text_embeddings.html">How to generate Text Embeddings with FastEmbed</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./004_production_ready.html">004 Production Ready</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,13 +152,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link active">
+  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">How to generate Text Embeddings with FastEmbed</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./004_production_ready.html" class="sidebar-item-text sidebar-link">
+  <a href="./004_production_ready.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">004 Production Ready</span></a>
   </div>
 </li>
@@ -215,141 +215,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#calculating-similarity" id="toc-calculating-similarity" class="nav-link active" data-scroll-target="#calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</a></li>
-  <li><a href="#finding-similarity" id="toc-finding-similarity" class="nav-link" data-scroll-target="#finding-similarity"><span class="header-section-number">2</span> Finding similarity</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">How to generate Text Embeddings with FastEmbed</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<div id="ffd7a481-4a5b-46a5-9c2b-b0de4274434f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cb3fb870-b899-45d8-b228-cdef5e2fcd5e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext jupyter_ai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2610129b-7d34-49f9-9c1e-90667bee6163" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>documents: [<span class="bu">str</span>] <span class="op">=</span> [</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is lighter than Transformers &amp; Sentence-Transformers."</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is supported by and maintained by Qdrant."</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I have a cat"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="64e79bfc-4e7d-4ca6-b851-cbdd996d7133" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>embedding_model.model_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="64">
-<pre><code>'BAAI/bge-small-en-v1.5'</code></pre>
-</div>
-</div>
-<div id="cfc23060-235b-4b2d-bd20-a939cf36e6c5" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(documents)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>embeddings_list[<span class="dv">0</span>][:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
-<pre><code>array([-0.09479211,  0.01008398, -0.03087804,  0.02379127,  0.00236447,
-        0.00065356, -0.08248352,  0.00084713,  0.03719218,  0.01438666],
-      dtype=float32)</code></pre>
-</div>
-</div>
-<section id="calculating-similarity" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</h2>
-<div id="d5396a73-bea7-417f-8b3b-e8da3f58e857" class="cell" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> models</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> (</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    calculate_distance,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="f5111e75-a818-4666-8724-2f10358933e4" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>distance_types <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="1f7d89cc-5321-4964-9bea-bdb1080fef35" class="cell" data-execution_count="68">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> np.array(embeddings_list)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> distance_types:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(distance_type.<span class="va">__name__</span>, distance_type(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>cosine_similarity [[0.6716511 0.4618737]]
-dot_product [[0.6716511 0.4618737]]
-euclidean_distance [[0.810369 1.037426]]
-manhattan_distance [[12.591358 16.071075]]</code></pre>
-</div>
-</div>
-<div id="2e73c2e6-aea0-4aef-8555-9cb05652a77a" class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> <span class="bu">list</span>(models.Distance):</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        distance_type, calculate_distance(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:], distance_type)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Cosine [[0.6716511 0.4618737]]
-Euclid [[0.810369 1.037426]]
-Dot [[0.6716511 0.4618737]]
-Manhattan [[12.591358 16.071075]]</code></pre>
-</div>
-</div>
+<div id="5269b196-593a-4819-abf2-86adc1f5e36f" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">you are an experienced AI engineer with 10 years of experience.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">you are tasked to build a retrieval augmented generation, RAG application.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">a vector store is an essential part for querying large amount of documents.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">plan before you act</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">- suggest the metadata for the documents to embed</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">- the metadata should aid in fast retrieval</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">- explain each metadata fields</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">- consider how to version the changes for the metadata when the document changes</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">- consider how to support different embedding models</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">- take into consideration of other edge cases</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">- list down other edge cases too</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="retrieval-augmented-generation-rag-application-planning" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="2" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <strong>Retrieval Augmented Generation (RAG) Application Planning</strong></h1>
+<section id="suggested-metadata-for-documents" class="level3" data-number="1.0.1">
+<h3 data-number="1.0.1" class="anchored" data-anchor-id="suggested-metadata-for-documents"><span class="header-section-number">1.0.1</span> 1. Suggested Metadata for Documents</h3>
+<p>To aid in fast retrieval, we suggest embedding the following metadata fields:</p>
+<ul>
+<li><strong>Document ID</strong>: A unique identifier for each document.</li>
+<li><strong>Category</strong>: The category or topic that the document belongs to.</li>
+<li><strong>Textual Features</strong>: Relevant textual features such as word embeddings (e.g., Word2Vec, GloVe) and document frequency.</li>
+<li><strong>Metadata Tags</strong>: Additional metadata tags such as author, date of creation, and keywords.</li>
+</ul>
 </section>
-<section id="finding-similarity" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="finding-similarity"><span class="header-section-number">2</span> Finding similarity</h2>
-<div id="987bffc4-30fd-4b6b-a38f-86ee211da2e2" class="cell" data-execution_count="95">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"I need a pet"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(query)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="2858c497-9bec-4320-bd11-8859ef723d8e" class="cell" data-execution_count="96">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> calculate_distance(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    np.array(embeddings_list), embeddings, distance_type<span class="op">=</span>models.Distance.COSINE</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="96">
-<pre><code>array([[0.433192  , 0.39380783, 0.77847326]], dtype=float32)</code></pre>
-</div>
-</div>
-<div id="97ec736e-190b-48a3-97e7-57ff8712544e" class="cell" data-execution_count="97">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>recommendations <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">zip</span>(documents, scores[<span class="dv">0</span>]), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc, score <span class="kw">in</span> recommendations:</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(doc, score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>I have a cat 0.77847326
-FastEmbed is lighter than Transformers &amp; Sentence-Transformers. 0.433192
-FastEmbed is supported by and maintained by Qdrant. 0.39380783</code></pre>
-</div>
-</div>
-
-
+<section id="explanation-of-metadata-fields" class="level3" data-number="1.0.2">
+<h3 data-number="1.0.2" class="anchored" data-anchor-id="explanation-of-metadata-fields"><span class="header-section-number">1.0.2</span> 2. Explanation of Metadata Fields</h3>
+<ul>
+<li><strong>Document ID</strong>: A unique identifier for each document, which can be used to quickly identify the document in storage or when querying.</li>
+<li><strong>Category</strong>: The category or topic that the document belongs to. This information is useful for fast retrieval based on topic similarity.</li>
+<li><strong>Textual Features</strong>: Relevant textual features such as word embeddings (e.g., Word2Vec, GloVe) and document frequency. These features provide semantic meaning to the text content of the document.</li>
+<li><strong>Metadata Tags</strong>: Additional metadata tags such as author, date of creation, and keywords. These tags provide additional context about the document.</li>
+</ul>
 </section>
+<section id="versioning-changes-for-metadata-when-documents-change" class="level3" data-number="1.0.3">
+<h3 data-number="1.0.3" class="anchored" data-anchor-id="versioning-changes-for-metadata-when-documents-change"><span class="header-section-number">1.0.3</span> 3. Versioning Changes for Metadata when Documents Change</h3>
+<p>To version changes for metadata when documents change:</p>
+<ul>
+<li>Create a separate field to track the version number of each document.</li>
+<li>Increment the version number each time the metadata changes.</li>
+<li>Store the previous version number along with the updated metadata.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Document ID</th>
+<th>Version</th>
+<th>Category</th>
+<th>Textual Features</th>
+<th>Metadata Tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>doc-1</td>
+<td>1.0</td>
+<td>Tech</td>
+<td>[word embeddings]</td>
+<td>author: John, date: 2022-01-01</td>
+</tr>
+<tr class="even">
+<td>doc-1</td>
+<td>2.0</td>
+<td>Tech</td>
+<td>[updated word embeddings]</td>
+<td>updated tags: keywords</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="supporting-different-embedding-models" class="level3" data-number="1.0.4">
+<h3 data-number="1.0.4" class="anchored" data-anchor-id="supporting-different-embedding-models"><span class="header-section-number">1.0.4</span> 4. Supporting Different Embedding Models</h3>
+<p>To support different embedding models:</p>
+<ul>
+<li>Use a modular architecture that allows the addition of new embedding models.</li>
+<li>Implement a standard interface for embedding models to ensure compatibility.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Add new embedding model using a RESTful API or a message queue.</li>
+<li>Update the metadata field to use the new embedding model.</li>
+<li>Restart the application or re-run the embedding process.</li>
+</ul>
+</section>
+<section id="edge-cases" class="level3" data-number="1.0.5">
+<h3 data-number="1.0.5" class="anchored" data-anchor-id="edge-cases"><span class="header-section-number">1.0.5</span> 5. Edge Cases</h3>
+<p>Some additional edge cases to consider:</p>
+<ul>
+<li><strong>Handling duplicate documents</strong>: Implement measures to handle duplicate documents, such as using a unique identifier for each document or storing the most recent version of the metadata.</li>
+<li><strong>Dealing with sparse data</strong>: Handle sparse data by using techniques such as interpolation or imputation to estimate missing values.</li>
+<li><strong>Optimizing storage and query performance</strong>: Optimize storage and query performance by indexing frequently used metadata fields.</li>
+</ul>
+<p><strong>Example Edge Cases:</strong></p>
+<ul>
+<li><strong>Duplicate Documents:</strong> Duplicate documents can occur when multiple users submit the same document. To handle this, store a unique identifier for each document and use it to identify duplicates.</li>
+<li><strong>Sparse Data:</strong> Sparse data occurs when some documents have missing values in their metadata fields. To handle this, use interpolation or imputation techniques to estimate missing values.</li>
+</ul>
+<p>Other edge cases:</p>
+<ul>
+<li>Handling non-textual metadata</li>
+<li>Dealing with large volumes of metadata updates</li>
+<li>Optimizing storage and query performance for large datasets</li>
+</ul>
+</section>
+</section>
+</div>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

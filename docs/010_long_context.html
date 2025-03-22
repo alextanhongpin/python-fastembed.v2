@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>How to generate Text Embeddings with FastEmbed – python applied machine learning</title>
+<title>long_context – python applied machine learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./003_fastembed_text_embeddings.html">How to generate Text Embeddings with FastEmbed</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_long_context.html">010 Long Context</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link active">
+  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">How to generate Text Embeddings with FastEmbed</span></a>
   </div>
 </li>
@@ -182,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link">
+  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">010 Long Context</span></a>
   </div>
 </li>
@@ -215,141 +215,146 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#calculating-similarity" id="toc-calculating-similarity" class="nav-link active" data-scroll-target="#calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</a></li>
-  <li><a href="#finding-similarity" id="toc-finding-similarity" class="nav-link" data-scroll-target="#finding-similarity"><span class="header-section-number">2</span> Finding similarity</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">How to generate Text Embeddings with FastEmbed</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<div id="ffd7a481-4a5b-46a5-9c2b-b0de4274434f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9c8cda28-01ab-4fc9-ab73-d24d91bb2dd4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext jupyter_ai</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>config AiMagics.default_language_model <span class="op">=</span> <span class="st">"ollama:llama3.2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2610129b-7d34-49f9-9c1e-90667bee6163" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>documents: [<span class="bu">str</span>] <span class="op">=</span> [</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is lighter than Transformers &amp; Sentence-Transformers."</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is supported by and maintained by Qdrant."</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I have a cat"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8082bf4b-45b8-4902-9443-84e096cfc804" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Generate a super long text of 1000 words about my cat"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="my-feline-friend" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="2" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> My Feline Friend</h1>
+<section id="introduction" class="level3" data-number="1.0.1">
+<h3 data-number="1.0.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.0.1</span> Introduction</h3>
+<p>My cat, Mr.&nbsp;Whiskers, has been a constant companion in my life for several years now. He is a sleek and agile feline with a shiny coat that comes in a variety of colors depending on the lighting conditions. Despite his refined appearance, Mr.&nbsp;Whiskers is a playful and mischievous creature who always keeps me entertained.</p>
+</section>
+<section id="physical-characteristics" class="level3" data-number="1.0.2">
+<h3 data-number="1.0.2" class="anchored" data-anchor-id="physical-characteristics"><span class="header-section-number">1.0.2</span> Physical Characteristics</h3>
+<p>Mr.&nbsp;Whiskers is a medium-sized cat with a muscular build. He has a short, smooth coat that ranges in color from grey to black, with distinctive white markings on his paws and chest. His eyes are a bright green, and his whiskers (as his name suggests) are incredibly long and sensitive. Despite their impressive length, Mr.&nbsp;Whiskers’ whiskers rarely get tangled or caught in anything.</p>
+</section>
+<section id="personality" class="level3" data-number="1.0.3">
+<h3 data-number="1.0.3" class="anchored" data-anchor-id="personality"><span class="header-section-number">1.0.3</span> Personality</h3>
+<p>Mr.&nbsp;Whiskers is an extremely affectionate cat who loves to be around people. He has a special fondness for human attention, and will often seek out cuddles and pets from me whenever he’s feeling particularly playful. However, despite his affectionate nature, Mr.&nbsp;Whiskers can also be quite demanding at times. If he doesn’t get the attention or playtime he wants, he’ll let me know about it in loud, insistent meows that can pierce through even the most concentrated work session.</p>
+</section>
+<section id="playtime" class="level3" data-number="1.0.4">
+<h3 data-number="1.0.4" class="anchored" data-anchor-id="playtime"><span class="header-section-number">1.0.4</span> Playtime</h3>
+<p>One of my favorite things to do with Mr.&nbsp;Whiskers is engage him in a game of “hide-and-seek.” I’ll hide treats or toys around the house, and encourage Mr.&nbsp;Whiskers to find them for himself. He’s incredibly skilled at this game, using his powerful sense of smell to track down even the most elusive hiding spots.</p>
+</section>
+<section id="sleeping-habits" class="level3" data-number="1.0.5">
+<h3 data-number="1.0.5" class="anchored" data-anchor-id="sleeping-habits"><span class="header-section-number">1.0.5</span> Sleeping Habits</h3>
+<p>Despite his energetic personality, Mr.&nbsp;Whiskers is also a heavy sleeper. He’ll often spend hours curled up in a sunbeam or under my bed, snoozing peacefully as I go about my day. It’s not uncommon for me to walk by him without even noticing he’s there, only to have him suddenly wake up and pounce on my arm with a playful swat.</p>
+</section>
+<section id="grooming-habits" class="level3" data-number="1.0.6">
+<h3 data-number="1.0.6" class="anchored" data-anchor-id="grooming-habits"><span class="header-section-number">1.0.6</span> Grooming Habits</h3>
+<p>Mr.&nbsp;Whiskers is extremely fastidious when it comes to his grooming habits. He spends hours each day licking and nuzzling his fur to keep it clean and well-coated. This means that he’s always looking immaculate, even after a particularly messy play session or three.</p>
+</section>
+<section id="special-quirks" class="level3" data-number="1.0.7">
+<h3 data-number="1.0.7" class="anchored" data-anchor-id="special-quirks"><span class="header-section-number">1.0.7</span> Special Quirks</h3>
+<p>One of Mr.&nbsp;Whiskers’ most endearing quirks is his love of chasing invisible prey. He’ll spend hours stalking imaginary mice or birds around the house, pouncing on them with lightning-fast reflexes only to realize they’re not really there. It’s hilarious to watch him in action, and always leaves me laughing.</p>
+</section>
+<section id="favorite-activities" class="level3" data-number="1.0.8">
+<h3 data-number="1.0.8" class="anchored" data-anchor-id="favorite-activities"><span class="header-section-number">1.0.8</span> Favorite Activities</h3>
+<p>In addition to playtime, Mr.&nbsp;Whiskers also enjoys a good scratch behind the ears or under the chin. He’ll sit for hours letting me rub his favorite spots, purring contentedly as I work out the knots and tangles in his fur. Another of his favorite activities is lounging on my lap while I watch TV or read a book.</p>
+</section>
+<section id="impact-on-daily-life" class="level3" data-number="1.0.9">
+<h3 data-number="1.0.9" class="anchored" data-anchor-id="impact-on-daily-life"><span class="header-section-number">1.0.9</span> Impact on Daily Life</h3>
+<p>Despite his small size, Mr.&nbsp;Whiskers has a significant impact on my daily life. He’s always there to brighten up my day with his antics and affectionate nature. Whether he’s chasing invisible prey or simply curled up in a ball at my feet, Mr.&nbsp;Whiskers is a constant source of comfort and companionship.</p>
+</section>
+<section id="benefits-of-owning-a-cat" class="level3" data-number="1.0.10">
+<h3 data-number="1.0.10" class="anchored" data-anchor-id="benefits-of-owning-a-cat"><span class="header-section-number">1.0.10</span> Benefits of Owning a Cat</h3>
+<p>One of the many benefits of owning a cat like Mr.&nbsp;Whiskers is the sense of calm and relaxation that comes with having him around. Studies have shown that simply petting a cat can lower your blood pressure, heart rate, and stress levels, making it easier to unwind after a long day.</p>
+</section>
+<section id="conclusion" class="level3" data-number="1.0.11">
+<h3 data-number="1.0.11" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.0.11</span> Conclusion</h3>
+<p>In conclusion, my life would not be complete without Mr.&nbsp;Whiskers by my side. He’s more than just a pet – he’s a beloved companion, a source of comfort and joy, and an endless source of entertainment. Whether he’s chasing invisible prey or simply lounging in the sun, Mr.&nbsp;Whiskers is always up to something interesting.</p>
+</section>
+<section id="final-thoughts" class="level3" data-number="1.0.12">
+<h3 data-number="1.0.12" class="anchored" data-anchor-id="final-thoughts"><span class="header-section-number">1.0.12</span> Final Thoughts</h3>
+<p>As I reflect on my time with Mr.&nbsp;Whiskers, I’m struck by his remarkable adaptability and resilience. Despite his many quirks and eccentricities, he remains a loyal and loving companion who brings endless joy and happiness into my life.</p>
+</section>
+</section>
 </div>
-<div id="64e79bfc-4e7d-4ca6-b851-cbdd996d7133" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>embedding_model.model_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="64">
-<pre><code>'BAAI/bge-small-en-v1.5'</code></pre>
+<div id="84970343-695b-449e-9546-f7772163d76e" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>document <span class="op">=</span> <span class="st">"""My Feline Friend¶</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">Introduction</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">My cat, Mr. Whiskers, has been a constant companion in my life for several years now. He is a sleek and agile feline with a shiny coat that comes in a variety of colors depending on the lighting conditions. Despite his refined appearance, Mr. Whiskers is a playful and mischievous creature who always keeps me entertained.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">Physical Characteristics</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is a medium-sized cat with a muscular build. He has a short, smooth coat that ranges in color from grey to black, with distinctive white markings on his paws and chest. His eyes are a bright green, and his whiskers (as his name suggests) are incredibly long and sensitive. Despite their impressive length, Mr. Whiskers' whiskers rarely get tangled or caught in anything.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">Personality</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is an extremely affectionate cat who loves to be around people. He has a special fondness for human attention, and will often seek out cuddles and pets from me whenever he's feeling particularly playful. However, despite his affectionate nature, Mr. Whiskers can also be quite demanding at times. If he doesn't get the attention or playtime he wants, he'll let me know about it in loud, insistent meows that can pierce through even the most concentrated work session.</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">Playtime</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">One of my favorite things to do with Mr. Whiskers is engage him in a game of "hide-and-seek." I'll hide treats or toys around the house, and encourage Mr. Whiskers to find them for himself. He's incredibly skilled at this game, using his powerful sense of smell to track down even the most elusive hiding spots.</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">Sleeping Habits</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">Despite his energetic personality, Mr. Whiskers is also a heavy sleeper. He'll often spend hours curled up in a sunbeam or under my bed, snoozing peacefully as I go about my day. It's not uncommon for me to walk by him without even noticing he's there, only to have him suddenly wake up and pounce on my arm with a playful swat.</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="st">Grooming Habits</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is extremely fastidious when it comes to his grooming habits. He spends hours each day licking and nuzzling his fur to keep it clean and well-coated. This means that he's always looking immaculate, even after a particularly messy play session or three.</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="st">Special Quirks</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="st">One of Mr. Whiskers' most endearing quirks is his love of chasing invisible prey. He'll spend hours stalking imaginary mice or birds around the house, pouncing on them with lightning-fast reflexes only to realize they're not really there. It's hilarious to watch him in action, and always leaves me laughing.</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="st">Favorite Activities</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="st">In addition to playtime, Mr. Whiskers also enjoys a good scratch behind the ears or under the chin. He'll sit for hours letting me rub his favorite spots, purring contentedly as I work out the knots and tangles in his fur. Another of his favorite activities is lounging on my lap while I watch TV or read a book.</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="st">Impact on Daily Life</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="st">Despite his small size, Mr. Whiskers has a significant impact on my daily life. He's always there to brighten up my day with his antics and affectionate nature. Whether he's chasing invisible prey or simply curled up in a ball at my feet, Mr. Whiskers is a constant source of comfort and companionship.</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="st">Benefits of Owning a Cat</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="st">One of the many benefits of owning a cat like Mr. Whiskers is the sense of calm and relaxation that comes with having him around. Studies have shown that simply petting a cat can lower your blood pressure, heart rate, and stress levels, making it easier to unwind after a long day.</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="st">Conclusion</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="st">In conclusion, my life would not be complete without Mr. Whiskers by my side. He's more than just a pet – he's a beloved companion, a source of comfort and joy, and an endless source of entertainment. Whether he's chasing invisible prey or simply lounging in the sun, Mr. Whiskers is always up to something interesting.</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="st">Final Thoughts</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="st">As I reflect on my time with Mr. Whiskers, I'm struck by his remarkable adaptability and resilience. Despite his many quirks and eccentricities, he remains a loyal and loving companion who brings endless joy and happiness into my life."""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="87ebd50d-c956-43cd-a61d-3c3caf0a88b8" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(document)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>4084</code></pre>
 </div>
 </div>
-<div id="cfc23060-235b-4b2d-bd20-a939cf36e6c5" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(documents)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>embeddings_list[<span class="dv">0</span>][:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
-<pre><code>array([-0.09479211,  0.01008398, -0.03087804,  0.02379127,  0.00236447,
-        0.00065356, -0.08248352,  0.00084713,  0.03719218,  0.01438666],
-      dtype=float32)</code></pre>
+<div id="b2bc0956-06e6-4a8c-a3c0-6481f23f80f7" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># needle in a haystack</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>niah <span class="op">=</span> <span class="st">"Mr. Whiskers has a dog friend named Mr. Husky"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [niah <span class="op">+</span> document, document <span class="op">+</span> niah, document, niah]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="6d3c8659-bacd-4cb0-a1b7-afc6e0da14c8" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(embedding_model.embed(documents))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="calculating-similarity" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</h2>
-<div id="d5396a73-bea7-417f-8b3b-e8da3f58e857" class="cell" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> models</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> (</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    calculate_distance,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0a39ad17-f05a-4cfd-9a4f-b8f9f7a5ec19" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> cosine_similarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f5111e75-a818-4666-8724-2f10358933e4" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>distance_types <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="1f7d89cc-5321-4964-9bea-bdb1080fef35" class="cell" data-execution_count="68">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> np.array(embeddings_list)</span>
+<div id="5a28c49a-86ec-4439-a126-c16bebbf8dd6" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>queries <span class="op">=</span> [<span class="st">"Who is Mr. Husky?"</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> distance_types:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(distance_type.<span class="va">__name__</span>, distance_type(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>cosine_similarity [[0.6716511 0.4618737]]
-dot_product [[0.6716511 0.4618737]]
-euclidean_distance [[0.810369 1.037426]]
-manhattan_distance [[12.591358 16.071075]]</code></pre>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>query_embeddings <span class="op">=</span> <span class="bu">list</span>(embedding_model.query_embed(queries))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cosine_similarity(np.array(query_embeddings), np.array(embeddings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>array([[0.5864911 , 0.53275806, 0.53275806, 0.71727777]], dtype=float32)</code></pre>
 </div>
 </div>
-<div id="2e73c2e6-aea0-4aef-8555-9cb05652a77a" class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> <span class="bu">list</span>(models.Distance):</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        distance_type, calculate_distance(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:], distance_type)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Cosine [[0.6716511 0.4618737]]
-Euclid [[0.810369 1.037426]]
-Dot [[0.6716511 0.4618737]]
-Manhattan [[12.591358 16.071075]]</code></pre>
-</div>
-</div>
-</section>
-<section id="finding-similarity" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="finding-similarity"><span class="header-section-number">2</span> Finding similarity</h2>
-<div id="987bffc4-30fd-4b6b-a38f-86ee211da2e2" class="cell" data-execution_count="95">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"I need a pet"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(query)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="2858c497-9bec-4320-bd11-8859ef723d8e" class="cell" data-execution_count="96">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> calculate_distance(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    np.array(embeddings_list), embeddings, distance_type<span class="op">=</span>models.Distance.COSINE</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="96">
-<pre><code>array([[0.433192  , 0.39380783, 0.77847326]], dtype=float32)</code></pre>
-</div>
-</div>
-<div id="97ec736e-190b-48a3-97e7-57ff8712544e" class="cell" data-execution_count="97">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>recommendations <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">zip</span>(documents, scores[<span class="dv">0</span>]), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc, score <span class="kw">in</span> recommendations:</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(doc, score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>I have a cat 0.77847326
-FastEmbed is lighter than Transformers &amp; Sentence-Transformers. 0.433192
-FastEmbed is supported by and maintained by Qdrant. 0.39380783</code></pre>
-</div>
-</div>
+<p>We can observe that the 2nd and 3rd document has the same similarity scores. This is because the document is too long is truncated before passing into the embedding model.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

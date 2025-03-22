@@ -13,3 +13,5 @@ wheels/
 .DS_Store
 .ipynb_checkpoints/
 tmp/
+startup_vectors.npy
+startups_demo.json

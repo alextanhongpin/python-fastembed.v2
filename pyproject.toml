@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "black>=25.1.0",
-    "fastembed>=0.6.0",
+    "datasets>=3.4.1",
     "ipywidgets>=8.1.5",
     "isort>=6.0.1",
     "jupyter-ai[all]>=2.31.0",
@@ -14,7 +14,9 @@ dependencies = [
     "jupyterlab-vim>=4.1.4",
     "matplotlib>=3.10.1",
     "numpy>=2.2.4",
-    "qdrant-client>=1.13.3",
+    "pandas>=2.2.3",
+    "qdrant-client[fastembed]>=1.13.3",
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.2",
+    "tqdm>=4.67.1",
 ]

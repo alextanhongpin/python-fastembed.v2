@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>How to generate Text Embeddings with FastEmbed – python applied machine learning</title>
+<title>How to generate Sparse Vectors with SPLADE – python applied machine learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -113,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./003_fastembed_text_embeddings.html">How to generate Text Embeddings with FastEmbed</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./005_splade.html">How to generate Sparse Vectors with SPLADE</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link active">
+  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">How to generate Text Embeddings with FastEmbed</span></a>
   </div>
 </li>
@@ -164,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./005_splade.html" class="sidebar-item-text sidebar-link">
+  <a href="./005_splade.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">How to generate Sparse Vectors with SPLADE</span></a>
   </div>
 </li>
@@ -220,8 +224,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#calculating-similarity" id="toc-calculating-similarity" class="nav-link active" data-scroll-target="#calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</a></li>
-  <li><a href="#finding-similarity" id="toc-finding-similarity" class="nav-link" data-scroll-target="#finding-similarity"><span class="header-section-number">2</span> Finding similarity</a></li>
+  <li><a href="#embed-data" id="toc-embed-data" class="nav-link active" data-scroll-target="#embed-data"><span class="header-section-number">1</span> Embed data</a></li>
+  <li><a href="#retrieve-embedding" id="toc-retrieve-embedding" class="nav-link" data-scroll-target="#retrieve-embedding"><span class="header-section-number">2</span> Retrieve Embedding</a></li>
+  <li><a href="#examine-weights" id="toc-examine-weights" class="nav-link" data-scroll-target="#examine-weights"><span class="header-section-number">3</span> Examine weights</a></li>
+  <li><a href="#analyze-results" id="toc-analyze-results" class="nav-link" data-scroll-target="#analyze-results"><span class="header-section-number">4</span> Analyze results</a></li>
   </ul>
 </nav>
     </div>
@@ -230,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How to generate Text Embeddings with FastEmbed</h1>
+<h1 class="title">How to generate Sparse Vectors with SPLADE</h1>
 </div>
 
 
@@ -247,104 +253,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="ffd7a481-4a5b-46a5-9c2b-b0de4274434f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>https://qdrant.tech/documentation/fastembed/fastembed-splade/</p>
+<div id="d9dcd951-c5f9-494a-8747-94a003752133" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> SparseEmbedding, SparseTextEmbedding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2610129b-7d34-49f9-9c1e-90667bee6163" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>documents: [<span class="bu">str</span>] <span class="op">=</span> [</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is lighter than Transformers &amp; Sentence-Transformers."</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FastEmbed is supported by and maintained by Qdrant."</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I have a cat"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="64e79bfc-4e7d-4ca6-b851-cbdd996d7133" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>embedding_model.model_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="64">
-<pre><code>'BAAI/bge-small-en-v1.5'</code></pre>
-</div>
-</div>
-<div id="cfc23060-235b-4b2d-bd20-a939cf36e6c5" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(documents)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>embeddings_list[<span class="dv">0</span>][:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
-<pre><code>array([-0.09479211,  0.01008398, -0.03087804,  0.02379127,  0.00236447,
-        0.00065356, -0.08248352,  0.00084713,  0.03719218,  0.01438666],
-      dtype=float32)</code></pre>
+<div id="e43649e7-bd27-4e78-943c-1714f3deef09" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> SparseTextEmbedding.list_supported_models()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>models[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>{'model': 'prithivida/Splade_PP_en_v1',
+ 'sources': {'hf': 'Qdrant/SPLADE_PP_en_v1', 'url': None},
+ 'model_file': 'model.onnx',
+ 'description': 'Independent Implementation of SPLADE++ Model for English.',
+ 'license': 'apache-2.0',
+ 'size_in_GB': 0.532,
+ 'additional_files': [],
+ 'requires_idf': None,
+ 'vocab_size': 30522}</code></pre>
 </div>
 </div>
-<section id="calculating-similarity" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="calculating-similarity"><span class="header-section-number">1</span> Calculating similarity</h2>
-<div id="d5396a73-bea7-417f-8b3b-e8da3f58e857" class="cell" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> models</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> (</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    calculate_distance,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0c12348d-32e2-400a-b7a6-280a78a1f8a5" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"prithivida/Splade_PP_en_v1"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SparseTextEmbedding(model_name<span class="op">=</span>model_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f5111e75-a818-4666-8724-2f10358933e4" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>distance_types <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    cosine_similarity,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    dot_product,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    euclidean_distance,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    manhattan_distance,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="embed-data" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="embed-data"><span class="header-section-number">1</span> Embed data</h2>
+<div id="11085385-493f-4bf4-81cc-367eb5de70f0" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>documents: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> [</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chandrayaan-3 is India's third lunar mission"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"It aimed to land a rover on the Moon's surface - joining the US, China and Russia"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The mission is a follow-up to Chandrayaan-2, which had partial success"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chandrayaan-3 will be launched by the Indian Space Research Organisation (ISRO)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The estimated cost of the mission is around $35 million"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"It will carry instruments to study the lunar surface and atmosphere"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chandrayaan-3 landed on the Moon's surface on 23rd August 2023"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"It consists of a lander named Vikram and a rover named Pragyan similar to Chandrayaan-2. Its propulsion module would act like an orbiter."</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The propulsion module carries the lander and rover configuration until the spacecraft is in a 100-kilometre (62 mi) lunar orbit"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The mission used GSLV Mk III rocket for its launch"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chandrayaan-3 was launched from the Satish Dhawan Space Centre in Sriharikota"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chandrayaan-3 was launched earlier in the year 2023"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1f7d89cc-5321-4964-9bea-bdb1080fef35" class="cell" data-execution_count="68">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> np.array(embeddings_list)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> distance_types:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(distance_type.<span class="va">__name__</span>, distance_type(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>cosine_similarity [[0.6716511 0.4618737]]
-dot_product [[0.6716511 0.4618737]]
-euclidean_distance [[0.810369 1.037426]]
-manhattan_distance [[12.591358 16.071075]]</code></pre>
+<div id="c79d8193-8497-4f7f-81ad-c7cc2ddf5172" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sparse_embeddings_list: <span class="bu">list</span>[SparseEmbedding] <span class="op">=</span> <span class="bu">list</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    model.embed(documents, batch_size<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="2e73c2e6-aea0-4aef-8555-9cb05652a77a" class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> distance_type <span class="kw">in</span> <span class="bu">list</span>(models.Distance):</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        distance_type, calculate_distance(embeddings[:<span class="dv">1</span>], embeddings[<span class="dv">1</span>:], distance_type)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Cosine [[0.6716511 0.4618737]]
-Euclid [[0.810369 1.037426]]
-Dot [[0.6716511 0.4618737]]
-Manhattan [[12.591358 16.071075]]</code></pre>
+</section>
+<section id="retrieve-embedding" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="retrieve-embedding"><span class="header-section-number">2</span> Retrieve Embedding</h2>
+<div id="eb98649d-ea17-434a-b900-db0860b236a9" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sparse_embeddings_list[index]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>SparseEmbedding(values=array([0.05297276, 0.01963477, 0.3645905 , 1.38508415, 0.7177667 ,
+       0.12668137, 0.46230468, 0.44676718, 0.26896986, 1.01519763,
+       1.56553161, 0.29411644, 1.53102267, 0.59785521, 1.10018086,
+       0.02078829, 0.09955899, 0.44248503, 0.09748027, 1.53519893,
+       1.36765647, 0.15741006, 0.49882478, 0.38628468, 0.76612252,
+       1.2580502 , 0.39058524, 0.27236614, 0.45152271, 0.48261923,
+       0.26085106, 1.35912812, 0.70710599, 1.71639597]), indices=array([ 1010,  1011,  1016,  1017,  2001,  2018,  2034,  2093,  2117,
+        2319,  2353,  2509,  2634,  2686,  2796,  2817,  2922,  2959,
+        3003,  3148,  3260,  3390,  3462,  3523,  3822,  4231,  4316,
+        4774,  5590,  5871,  6416, 11926, 12076, 16469]))</code></pre>
 </div>
 </div>
 </section>
-<section id="finding-similarity" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="finding-similarity"><span class="header-section-number">2</span> Finding similarity</h2>
-<div id="987bffc4-30fd-4b6b-a38f-86ee211da2e2" class="cell" data-execution_count="95">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"I need a pet"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(query)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embeddings_generator)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="2858c497-9bec-4320-bd11-8859ef723d8e" class="cell" data-execution_count="96">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> calculate_distance(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    np.array(embeddings_list), embeddings, distance_type<span class="op">=</span>models.Distance.COSINE</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="96">
-<pre><code>array([[0.433192  , 0.39380783, 0.77847326]], dtype=float32)</code></pre>
-</div>
-</div>
-<div id="97ec736e-190b-48a3-97e7-57ff8712544e" class="cell" data-execution_count="97">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>recommendations <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">zip</span>(documents, scores[<span class="dv">0</span>]), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc, score <span class="kw">in</span> recommendations:</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(doc, score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="examine-weights" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="examine-weights"><span class="header-section-number">3</span> Examine weights</h2>
+<div id="b3278ae5-cafa-46ce-9f36-6e2d5898a9e2" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Token at index </span><span class="sc">{</span>sparse_embeddings_list[<span class="dv">0</span>]<span class="sc">.</span>indices[i]<span class="sc">}</span><span class="ss"> has weight </span><span class="sc">{</span>sparse_embeddings_list[<span class="dv">0</span>]<span class="sc">.</span>values[i]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>I have a cat 0.77847326
-FastEmbed is lighter than Transformers &amp; Sentence-Transformers. 0.433192
-FastEmbed is supported by and maintained by Qdrant. 0.39380783</code></pre>
+<pre><code>Token at index 1010 has weight 0.05297275632619858
+Token at index 1011 has weight 0.01963476650416851
+Token at index 1016 has weight 0.36459049582481384
+Token at index 1017 has weight 1.3850841522216797
+Token at index 2001 has weight 0.7177667021751404</code></pre>
+</div>
+</div>
+</section>
+<section id="analyze-results" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="analyze-results"><span class="header-section-number">4</span> Analyze results</h2>
+<div id="2182a7d6-02b9-4c35-ac1e-417ea2ed7509" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tokenizers <span class="im">import</span> Tokenizer</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> Tokenizer.from_pretrained(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    SparseTextEmbedding.list_supported_models()[<span class="dv">0</span>][<span class="st">"sources"</span>][<span class="st">"hf"</span>]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"48a33613205a4ef1be5af12098c25ee3","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+<div id="fd62d76c-e38e-41fd-bd96-5df0001a70e5" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_tokens_and_weights(sparse_embedding, tokenizer):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    token_weight_dict <span class="op">=</span> {}</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sparse_embedding.indices)):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        token <span class="op">=</span> tokenizer.decode([sparse_embedding.indices[i]])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        weight <span class="op">=</span> sparse_embedding.values[i]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        token_weight_dict[token] <span class="op">=</span> weight</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort the dictionary by weights.</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    token_weight_dict <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sorted</span>(token_weight_dict.items(), key<span class="op">=</span><span class="kw">lambda</span> item: item[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> token_weight_dict</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    json.dumps(</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        get_tokens_and_weights(sparse_embeddings_list[index], tokenizer), indent<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+    "chandra": 1.7163959741592407,
+    "third": 1.565531611442566,
+    "##ya": 1.5351989269256592,
+    "india": 1.5310226678848267,
+    "3": 1.3850841522216797,
+    "mission": 1.3676564693450928,
+    "lunar": 1.3591281175613403,
+    "moon": 1.2580502033233643,
+    "indian": 1.1001808643341064,
+    "##an": 1.0151976346969604,
+    "3rd": 0.7661225199699402,
+    "was": 0.7177667021751404,
+    "spacecraft": 0.7071059942245483,
+    "space": 0.5978552103042603,
+    "flight": 0.4988247752189636,
+    "satellite": 0.4826192259788513,
+    "first": 0.4623046815395355,
+    "expedition": 0.45152270793914795,
+    "three": 0.4467671811580658,
+    "fourth": 0.4424850344657898,
+    "vehicle": 0.3905852437019348,
+    "iii": 0.3862846791744232,
+    "2": 0.36459049582481384,
+    "##3": 0.29411643743515015,
+    "planet": 0.27236613631248474,
+    "second": 0.268969863653183,
+    "missions": 0.26085105538368225,
+    "launched": 0.15741005539894104,
+    "had": 0.1266813725233078,
+    "largest": 0.0995589941740036,
+    "leader": 0.09748027473688126,
+    ",": 0.05297275632619858,
+    "study": 0.02078828774392605,
+    "-": 0.01963476650416851
+}</code></pre>
 </div>
 </div>
 

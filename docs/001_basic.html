@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,10 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -160,6 +156,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">How to generate Text Embeddings with FastEmbed</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./004_production_ready.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">004 Production Ready</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_splade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to generate Sparse Vectors with SPLADE</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_generate_colbert_multivectors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Generate ColBERT Multivectors with FastEmbed</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_reranking_fastembed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reranking with fastembed</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">010 Long Context</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_001_basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build your first Semantic Search Engine in 5 minutes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_002_build_neural_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build a Neural Search Service</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_003_hybrid_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build a Hybrid Search Service with FastEmbed and Qdrant</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_004_measure_and_improve_retrieval_quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Measure and Improve Retrieval Quality in Semantic Search</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -170,11 +220,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#sparse-text-embeddings" id="toc-sparse-text-embeddings" class="nav-link active" data-scroll-target="#sparse-text-embeddings"><span class="header-section-number">1.1</span> Sparse text embeddings</a></li>
-  <li><a href="#late-interaction-models-aka-colbert" id="toc-late-interaction-models-aka-colbert" class="nav-link" data-scroll-target="#late-interaction-models-aka-colbert"><span class="header-section-number">2.1</span> Late interaction models (aka ColBERT)</a></li>
-  <li><a href="#image-embeddings" id="toc-image-embeddings" class="nav-link" data-scroll-target="#image-embeddings"><span class="header-section-number">3.1</span> Image embeddings</a></li>
-  <li><a href="#late-interaction-multimodal-models-colpali" id="toc-late-interaction-multimodal-models-colpali" class="nav-link" data-scroll-target="#late-interaction-multimodal-models-colpali"><span class="header-section-number">3.2</span> Late interaction multimodal models (ColPali)</a></li>
-  <li><a href="#rerankers" id="toc-rerankers" class="nav-link" data-scroll-target="#rerankers"><span class="header-section-number">4.1</span> Rerankers</a></li>
+  <li><a href="#sparse-text-embeddings" id="toc-sparse-text-embeddings" class="nav-link active" data-scroll-target="#sparse-text-embeddings"><span class="header-section-number">1.4</span> Sparse text embeddings</a></li>
+  <li><a href="#late-interaction-models-aka-colbert" id="toc-late-interaction-models-aka-colbert" class="nav-link" data-scroll-target="#late-interaction-models-aka-colbert"><span class="header-section-number">2.4</span> Late interaction models (aka ColBERT)</a></li>
+  <li><a href="#image-embeddings" id="toc-image-embeddings" class="nav-link" data-scroll-target="#image-embeddings"><span class="header-section-number">3.4</span> Image embeddings</a></li>
+  <li><a href="#late-interaction-multimodal-models-colpali" id="toc-late-interaction-multimodal-models-colpali" class="nav-link" data-scroll-target="#late-interaction-multimodal-models-colpali"><span class="header-section-number">3.5</span> Late interaction multimodal models (ColPali)</a></li>
+  <li><a href="#rerankers" id="toc-rerankers" class="nav-link" data-scroll-target="#rerankers"><span class="header-section-number">4.4</span> Rerankers</a></li>
   </ul>
 </nav>
     </div>
@@ -200,81 +250,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="b01e35c0-c3f4-4f30-808c-fd17513884cd" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext jupyter_ai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b01e35c0-c3f4-4f30-808c-fd17513884cd" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext jupyter_ai</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>config AiMagics.default_language_model <span class="op">=</span> <span class="st">"ollama:llama3.2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The jupyter_ai extension is already loaded. To reload it, use:
+  %reload_ext jupyter_ai</code></pre>
 </div>
-<div id="86c464a1-6e9f-4019-b720-d4cde326158e" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Explain sparse text embedding, keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="sparse-text-embedding" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="5" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Sparse Text Embedding</h1>
-<p>Sparse text embedding is a way to represent text data as numerical vectors that capture its meaning, but with a twist: most of the vector elements are zero.</p>
-<section id="how-it-works" class="level3" data-number="1.0.1">
-<h3 data-number="1.0.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">1.0.1</span> How it works</h3>
-<p>Imagine you have two sentences: “I like apples” and “Apples are delicious”. A sparse text embedding would map these sentences to two different numerical vectors, where only certain elements are non-zero. The non-zero elements represent the words in each sentence that contribute to its meaning.</p>
-<p>For example:</p>
+</div>
+<div id="86c464a1-6e9f-4019-b720-d4cde326158e" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Explain dense text embedding, keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="dense-text-embeddings" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="24" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <strong>Dense Text Embeddings</strong></h1>
+<section id="what-is-a-dense-vector" class="level3" data-number="1.0.1">
+<h3 data-number="1.0.1" class="anchored" data-anchor-id="what-is-a-dense-vector"><span class="header-section-number">1.0.1</span> What is a Dense Vector?</h3>
+<p>A dense vector is a high-dimensional numerical representation of a piece of text.</p>
+</section>
+<section id="how-does-it-work" class="level3" data-number="1.0.2">
+<h3 data-number="1.0.2" class="anchored" data-anchor-id="how-does-it-work"><span class="header-section-number">1.0.2</span> How Does it Work?</h3>
+<p>Imagine you’re looking at a word and thinking of related words, like “apple” and “fruit”. A dense vector does something similar for an entire paragraph or sentence, but instead of words, it uses numerical values to represent the relationships between all the words in the text.</p>
+</section>
+<section id="example" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">1.1</span> ### Example</h2>
+<p>Let’s say we have a piece of text: “The quick brown fox jumps over the lazy dog.”</p>
+<p>We can represent this as two vectors:</p>
 <ul>
-<li>Vector for “I like apples”: [0, 1, 0, 0, 0] (where ‘1’ represents a word in the vocabulary)</li>
-<li>Vector for “Apples are delicious”: [1, 0, 0, 1, 1]</li>
+<li>Vector A: <code>[0.1, 0.2, 0.3, ...]</code> (related to the word “quick”)</li>
+<li>Vector B: <code>[0.4, 0.5, 0.6, ...]</code> (related to the word “brown”)</li>
 </ul>
-<p>The dot product of these vectors would be close to zero, indicating that the sentences are quite different in meaning.</p>
+<p>Our dense vector would be a combination of these two vectors.</p>
 </section>
-<section id="example-code" class="level3" data-number="1.0.2">
-<h3 data-number="1.0.2" class="anchored" data-anchor-id="example-code"><span class="header-section-number">1.0.2</span> Example Code</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Import necessary libraries</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>import numpy as np</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu"># Define two sentences</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sentence1 = "I like apples"</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sentence2 = "Apples are delicious"</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Create a simple embedding model (simplified for illustration)</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>def text_embedding(sentence, vocab_size=1000):</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    # Assume we have a vocabulary of 1000 words</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    word_to_vec = {word: np.random.rand(5) for word in range(vocab_size)}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="in">    # Convert the sentence to vector representation</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="in">    vec = np.zeros((5,))</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="in">    for word in sentence.split():</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="in">        if word in word_to_vec:</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="in">            vec += word_to_vec[word]</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="in">            </span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="in">    return vec</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Calculate embeddings for the sentences</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>vec1 = text_embedding(sentence1)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>vec2 = text_embedding(sentence2)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>print("Sentence 1:", vec1)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>print("Sentence 2:", vec2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="output" class="level3" data-number="1.0.3">
-<h3 data-number="1.0.3" class="anchored" data-anchor-id="output"><span class="header-section-number">1.0.3</span> Output</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="an">Sentence 1:</span><span class="co"> [0.523 0.219 0.  0.156 0.]</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">Sentence 2:</span><span class="co"> [0.439 0.  0.  0.876 0.314]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In this example, only certain elements in the vectors are non-zero, representing the words in each sentence that contribute to its meaning.</p>
-</section>
-<section id="real-world-examples" class="level3" data-number="1.0.4">
-<h3 data-number="1.0.4" class="anchored" data-anchor-id="real-world-examples"><span class="header-section-number">1.0.4</span> Real-world Examples</h3>
+<section id="real-world-examples" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="real-world-examples"><span class="header-section-number">1.2</span> ### Real-World Examples</h2>
 <ol type="1">
-<li><strong>Word Embeddings</strong>: Word2Vec and GloVe use sparse text embedding to represent words as vectors.</li>
-<li><strong>Text Classifiers</strong>: Many text classification models, like Support Vector Machines (SVMs) and Random Forests, rely on sparse text embeddings to classify text data.</li>
-<li><strong>Named Entity Recognition (NER)</strong>: NER models often use sparse text embeddings to identify named entities in text data.</li>
+<li><strong>Text Classification</strong>: Dense embeddings can be used as input features for text classification models, such as sentiment analysis or spam detection.</li>
+<li><strong>Topic Modeling</strong>: Dense embeddings can help identify topics in large collections of text by capturing the underlying relationships between words.</li>
+<li><strong>Information Retrieval</strong>: Dense embeddings can improve search results by representing documents and queries as dense vectors, allowing for more accurate matches.</li>
 </ol>
 </section>
-<section id="real-world-applications" class="level3" data-number="1.0.5">
-<h3 data-number="1.0.5" class="anchored" data-anchor-id="real-world-applications"><span class="header-section-number">1.0.5</span> Real-world Applications:</h3>
-<ol type="1">
-<li>Social Media Sentiment Analysis</li>
-<li>Text Classification</li>
-<li>Named Entity Recognition</li>
-</ol>
-<p>Note that real-world dense text embedding models like BERT and RoBERTa use more complex architectures and training techniques to capture semantic relationships between words, but the concept of sparse text embedding remains relevant for certain applications.</p>
+<section id="code-example" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="code-example"><span class="header-section-number">1.3</span> ### Code Example</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to create a simple dense vector representation</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_dense_vector(text):</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Split the text into words</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> text.split()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a dictionary to store word vectors</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    word_vectors <span class="op">=</span> {}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add each word to the dictionary</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, word <span class="kw">in</span> <span class="bu">enumerate</span>(words):</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Use a random numerical value as the vector for simplicity</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        word_vector <span class="op">=</span> np.random.rand(<span class="dv">768</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        word_vectors[word] <span class="op">=</span> word_vector</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine all word vectors into a single dense vector</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    dense_vector <span class="op">=</span> np.array([word_vectors[word] <span class="cf">for</span> word <span class="kw">in</span> words])</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dense_vector</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>dense_vector <span class="op">=</span> create_dense_vector(text)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dense_vector.shape)  <span class="co"># Output: (1, 768)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, we use a simple dictionary to store word vectors and then combine them into a single dense vector.</p>
 </section>
 </section>
 </div>
-<div id="4e10325a-25ff-49d7-9039-0860c25d1255" class="cell" data-execution_count="9">
+<div id="4e10325a-25ff-49d7-9039-0860c25d1255" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example list of documents</span></span>
@@ -285,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># This will trigger the model download and initialization</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding(model_name<span class="op">=</span><span class="st">"BAAI/bge-small-en-v1.5"</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The model BAAI/bge-small-en-v1.5 is ready to use."</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The model </span><span class="sc">{</span>embedding_model<span class="sc">.</span>model_name<span class="sc">}</span><span class="ss"> is ready to use."</span>)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>embeddings_generator <span class="op">=</span> embedding_model.embed(documents)  <span class="co"># reminder this is a generator</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>embeddings_list <span class="op">=</span> <span class="bu">list</span>(embedding_model.embed(documents))</span>
@@ -294,13 +342,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>The model BAAI/bge-small-en-v1.5 is ready to use.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>384</code></pre>
 </div>
 </div>
-<div id="9e7c348d-0928-4d2d-806c-aff98be7b704" class="cell" data-execution_count="13">
+<div id="9e7c348d-0928-4d2d-806c-aff98be7b704" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> x: <span class="kw">not</span> x.startswith(<span class="st">"__"</span>), <span class="bu">dir</span>(embedding_model)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['EMBEDDINGS_REGISTRY',
  'METADATA_FILE',
  '_get_model_description',
@@ -322,84 +370,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  'threads']</code></pre>
 </div>
 </div>
-<div id="41b917ad-538a-416f-a7e6-a2e6227409b6" class="cell" data-execution_count="14">
+<div id="41b917ad-538a-416f-a7e6-a2e6227409b6" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>embedding_model.model_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>'BAAI/bge-small-en-v1.5'</code></pre>
 </div>
 </div>
-<section id="sparse-text-embeddings" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sparse-text-embeddings"><span class="header-section-number">1.1</span> Sparse text embeddings</h2>
-<div id="10cc98bd-4237-49d4-97f7-598ef598286d" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
+<section id="sparse-text-embeddings" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sparse-text-embeddings"><span class="header-section-number">1.4</span> Sparse text embeddings</h2>
+<div id="10cc98bd-4237-49d4-97f7-598ef598286d" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Explain sparse text embedding, keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="sparse-text-embedding-1" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="4" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Sparse Text Embedding</h1>
-<p>Sparse text embedding is a way to represent text data as numerical vectors that capture its meaning, but with a twist: most of the vector elements are zero.</p>
-<section id="how-it-works-1" class="level3" data-number="2.0.1">
-<h3 data-number="2.0.1" class="anchored" data-anchor-id="how-it-works-1"><span class="header-section-number">2.0.1</span> How it works</h3>
-<p>Imagine you have two sentences: “I like apples” and “Apples are delicious”. A sparse text embedding would map these sentences to two different numerical vectors, where only certain elements are non-zero. The non-zero elements represent the words in each sentence that contribute to its meaning.</p>
-<p>For example:</p>
+<section id="sparse-text-embeddings-1" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="25" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> <strong>Sparse Text Embeddings</strong></h1>
+<section id="what-is-a-sparse-vector" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="what-is-a-sparse-vector"><span class="header-section-number">2.0.1</span> What is a Sparse Vector?</h3>
+<p>A sparse vector is a numerical representation of a piece of text where most values are 0.</p>
+</section>
+<section id="how-does-it-work-1" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="how-does-it-work-1"><span class="header-section-number">2.0.2</span> How Does it Work?</h3>
+<p>Imagine you’re looking at a word and thinking of related words, like “apple” and “fruit”. A sparse vector would have a few non-zero values representing the relationships between these words, but most values would be 0 (representing unrelated words).</p>
+</section>
+<section id="example-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.1</span> ### Example</h2>
+<p>Let’s say we have a piece of text: “The quick brown fox jumps over the lazy dog.”</p>
+<p>We can represent this as two sparse vectors:</p>
 <ul>
-<li>Vector for “I like apples”: [0, 1, 0, 0, 0] (where ‘1’ represents a word in the vocabulary)</li>
-<li>Vector for “Apples are delicious”: [1, 0, 0, 1, 1]</li>
+<li>Vector A: <code>[0.1, 0, 0, ...]</code> (related to the word “quick”)</li>
+<li>Vector B: <code>[0, 0.4, 0, ...]</code> (related to the word “brown”)</li>
 </ul>
-<p>The dot product of these vectors would be close to zero, indicating that the sentences are quite different in meaning.</p>
+<p>Our sparse vector would have only non-zero values representing the relationships between these two words.</p>
 </section>
-<section id="example-code-1" class="level3" data-number="2.0.2">
-<h3 data-number="2.0.2" class="anchored" data-anchor-id="example-code-1"><span class="header-section-number">2.0.2</span> Example Code</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Import necessary libraries</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>import numpy as np</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu"># Define two sentences</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sentence1 = "I like apples"</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>sentence2 = "Apples are delicious"</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Create a simple embedding model (simplified for illustration)</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>def text_embedding(sentence, vocab_size=1000):</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    # Assume we have a vocabulary of 1000 words</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    word_to_vec = {word: np.random.rand(5) for word in range(vocab_size)}</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="in">    # Convert the sentence to vector representation</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="in">    vec = np.zeros((5,))</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="in">    for word in sentence.split():</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="in">        if word in word_to_vec:</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="in">            vec += word_to_vec[word]</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="in">            </span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="in">    return vec</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Calculate embeddings for the sentences</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>vec1 = text_embedding(sentence1)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>vec2 = text_embedding(sentence2)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>print("Sentence 1:", vec1)</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>print("Sentence 2:", vec2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="output-1" class="level3" data-number="2.0.3">
-<h3 data-number="2.0.3" class="anchored" data-anchor-id="output-1"><span class="header-section-number">2.0.3</span> Output</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="an">Sentence 1:</span><span class="co"> [0.523 0.219 0.  0.156 0.]</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">Sentence 2:</span><span class="co"> [0.439 0.  0.  0.876 0.314]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In this example, only certain elements in the vectors are non-zero, representing the words in each sentence that contribute to its meaning.</p>
-</section>
-<section id="real-world-examples-1" class="level3" data-number="2.0.4">
-<h3 data-number="2.0.4" class="anchored" data-anchor-id="real-world-examples-1"><span class="header-section-number">2.0.4</span> Real-world Examples</h3>
+<section id="real-world-examples-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="real-world-examples-1"><span class="header-section-number">2.2</span> ### Real-World Examples</h2>
 <ol type="1">
-<li><strong>Word Embeddings</strong>: Word2Vec and GloVe use sparse text embedding to represent words as vectors.</li>
-<li><strong>Text Classifiers</strong>: Many text classification models, like Support Vector Machines (SVMs) and Random Forests, rely on sparse text embeddings to classify text data.</li>
-<li><strong>Named Entity Recognition (NER)</strong>: NER models often use sparse text embeddings to identify named entities in text data.</li>
+<li><strong>Text Classification</strong>: Sparse embeddings can be used as input features for text classification models, such as sentiment analysis or spam detection.</li>
+<li><strong>Topic Modeling</strong>: Sparse embeddings can help identify topics in large collections of text by capturing the underlying relationships between words.</li>
+<li><strong>Word Embeddings</strong>: Sparse embeddings can be used to represent individual words, like Word2Vec or GloVe.</li>
 </ol>
-<p>Note that real-world dense text embedding models like BERT and RoBERTa use more complex architectures and training techniques to capture semantic relationships between words, but the concept of sparse text embedding remains relevant for certain applications.</p>
+</section>
+<section id="code-example-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="code-example-1"><span class="header-section-number">2.3</span> ### Code Example</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to create a simple sparse vector representation</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_sparse_vector(text):</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Split the text into words</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> text.split()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a dictionary to store word vectors</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    word_vectors <span class="op">=</span> {}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add each word to the dictionary</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, word <span class="kw">in</span> <span class="bu">enumerate</span>(words):</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Use a random numerical value as the vector for simplicity</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        word_vector <span class="op">=</span> np.random.rand(<span class="dv">768</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        word_vector[i] <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Set the correct value</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        word_vectors[word] <span class="op">=</span> word_vector</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine all word vectors into a single sparse vector</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    sparse_vector <span class="op">=</span> np.array([word_vectors[word][i] <span class="cf">for</span> i, word <span class="kw">in</span> <span class="bu">enumerate</span>(words)])</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sparse_vector</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>sparse_vector <span class="op">=</span> create_sparse_vector(text)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sparse_vector.shape)  <span class="co"># Output: (1, 768)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, we use a simple dictionary to store word vectors and then combine them into a single sparse vector. The <code>i</code>-th value in each word vector is set to 1.0 to represent the correct relationship between words.</p>
 </section>
 </section>
 </div>
-<div id="8df1694b-f843-47de-9812-62f20c58d684" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> SparseTextEmbedding</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SparseTextEmbedding(model_name<span class="op">=</span><span class="st">"prithivida/Splade_PP_en_v1"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(documents))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>embeddings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="8df1694b-f843-47de-9812-62f20c58d684" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> SparseTextEmbedding</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SparseTextEmbedding(model_name<span class="op">=</span><span class="st">"prithivida/Splade_PP_en_v1"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(documents))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>embeddings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>[SparseEmbedding(values=array([0.46793732, 0.34634435, 0.82014424, 0.45307532, 0.98732066,
         0.80176616, 0.2087955 , 0.07078066, 0.15851103, 0.07413071,
         0.34253079, 0.88557774, 0.13234277, 0.23698376, 0.07734038,
@@ -443,86 +493,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="late-interaction-models-aka-colbert" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="late-interaction-models-aka-colbert"><span class="header-section-number">2.1</span> Late interaction models (aka ColBERT)</h2>
-<div id="65eea562-bee1-4037-81dc-f6d840ddd34f" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>topic <span class="op">=</span> <span class="st">"late interaction models"</span></span>
+<section id="late-interaction-models-aka-colbert" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="late-interaction-models-aka-colbert"><span class="header-section-number">2.4</span> Late interaction models (aka ColBERT)</h2>
+<div id="65eea562-bee1-4037-81dc-f6d840ddd34f" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Explain late interaction models (aka ColBERT), keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="late-interaction-models-colbert" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="26" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> <strong>Late Interaction Models (ColBERT)</strong></h1>
+<section id="what-is-late-interaction" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="what-is-late-interaction"><span class="header-section-number">3.0.1</span> What is Late Interaction?</h3>
+<p>Late interaction models are a type of search model that improves the performance of early interaction methods, such as BM25.</p>
+</section>
+<section id="how-does-it-work-2" class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="how-does-it-work-2"><span class="header-section-number">3.0.2</span> How Does it Work?</h3>
+<p>Imagine you’re searching for documents related to a query. Early interaction methods like BM25 use features extracted from the query and the document to rank them. Late interaction models refine these rankings by using additional information, such as the entire document or other relevant documents.</p>
+</section>
+<section id="example-2" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="example-2"><span class="header-section-number">3.1</span> ### Example</h2>
+<p>Let’s say we have a search model that uses BM25 to rank documents for a query “computer science”. The top 5 ranked documents are:</p>
+<ol type="1">
+<li><strong>A paper on computer vision</strong></li>
+<li><strong>A blog post on machine learning</strong></li>
+<li><strong>A Wikipedia page on artificial intelligence</strong></li>
+<li><strong>A news article on data science</strong></li>
+<li><strong>A book review on software engineering</strong></li>
+</ol>
+<p>Late interaction models like ColBERT can improve these rankings by considering additional features, such as:</p>
+<ul>
+<li>The entire document text</li>
+<li>Other relevant documents in the corpus</li>
+</ul>
+</section>
+<section id="real-world-examples-2" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="real-world-examples-2"><span class="header-section-number">3.2</span> ### Real-World Examples</h2>
+<ol type="1">
+<li><strong>E-commerce Search</strong>: Late interaction models can improve search results for e-commerce platforms by incorporating product descriptions, reviews, and other relevant information.</li>
+<li><strong>Knowledge Graph Search</strong>: Late interaction models can be used to search knowledge graphs, which are databases of entities and their relationships.</li>
+<li><strong>Recommendation Systems</strong>: Late interaction models can be used to recommend items based on user behavior and preferences.</li>
+</ol>
+</section>
+<section id="code-example-2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="code-example-2"><span class="header-section-number">3.3</span> ### Code Example</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ss">f"Explain </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">, keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="late-interaction-models" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="7" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Late Interaction Models</h1>
-<p>Late interaction models are a type of neural network architecture used for natural language processing (NLP) tasks, particularly for modeling long-range dependencies between tokens in a sequence.</p>
-<section id="how-it-works-2" class="level3" data-number="3.0.1">
-<h3 data-number="3.0.1" class="anchored" data-anchor-id="how-it-works-2"><span class="header-section-number">3.0.1</span> How it works</h3>
-<p>Traditional recurrent neural networks (RNNs) and transformers struggle with modeling long-range dependencies in text data. Late interaction models address this issue by using self-attention mechanisms that allow the model to weigh the importance of different tokens in the input sequence relative to each other, even at long distances.</p>
-<p>The key idea behind late interaction models is to process the entire input sequence at once and compute the attention weights simultaneously. This allows the model to capture complex relationships between tokens and focus on the most relevant parts of the input sequence.</p>
-</section>
-<section id="example-code-2" class="level3" data-number="3.0.2">
-<h3 data-number="3.0.2" class="anchored" data-anchor-id="example-code-2"><span class="header-section-number">3.0.2</span> Example Code</h3>
-<div class="sourceCode" id="cb18"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Import necessary libraries</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>import torch</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>import torch.nn as nn</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># Define a simple late interaction model (simplified for illustration)</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>class LateInteractionModel(nn.Module):</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    def __init__(self, vocab_size, hidden_size):</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        super(LateInteractionModel, self).__init__()</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        self.encoder = nn.TransformerEncoderLayer(d_model=hidden_size)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        self.decoder = nn.Linear(hidden_size * vocab_size, vocab_size)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="in">    def forward(self, input_sequence):</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="in">        # Compute attention weights</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="in">        attention_weights = self.encoder(input_sequence)</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="in">        # Apply attention weights to the decoder</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="in">        output = self.decoder(attention_weights)</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="in">        return output</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Initialize the model and a sample input sequence</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>vocab_size = 1000</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>hidden_size = 128</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>input_sequence = torch.randint(0, vocab_size, (1, 10))</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu"># Create an instance of the late interaction model</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>model = LateInteractionModel(vocab_size, hidden_size)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="fu"># Forward pass</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>output = model(input_sequence)</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>print("Output:", output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="output-2" class="level3" data-number="3.0.3">
-<h3 data-number="3.0.3" class="anchored" data-anchor-id="output-2"><span class="header-section-number">3.0.3</span> Output</h3>
-<div class="sourceCode" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="an">Output:</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tensor(<span class="co">[</span><span class="ot">0, 1, 2, 3, 4, 5, 6, 7, 8, 9</span><span class="co">]</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In this example, the late interaction model processes the entire input sequence at once and computes attention weights simultaneously. The output represents the predicted tokens in the input sequence.</p>
-</section>
-<section id="real-world-examples-2" class="level3" data-number="3.0.4">
-<h3 data-number="3.0.4" class="anchored" data-anchor-id="real-world-examples-2"><span class="header-section-number">3.0.4</span> Real-world Examples</h3>
-<ol type="1">
-<li><strong>Long-range dependencies</strong>: Modeling long-range dependencies between tokens is a challenging task for traditional RNNs and transformers.</li>
-<li><strong>Text classification</strong>: Late interaction models can be used for text classification tasks, such as sentiment analysis or topic modeling.</li>
-<li><strong>Machine translation</strong>: Late interaction models can be used for machine translation tasks, where the model needs to capture long-range dependencies between words.</li>
-</ol>
-</section>
-<section id="real-world-applications-1" class="level3" data-number="3.0.5">
-<h3 data-number="3.0.5" class="anchored" data-anchor-id="real-world-applications-1"><span class="header-section-number">3.0.5</span> Real-world Applications:</h3>
-<ol type="1">
-<li>Sentiment Analysis</li>
-<li>Text Classification</li>
-<li>Machine Translation</li>
-</ol>
-<p>Note that late interaction models are more computationally expensive than traditional RNNs and transformers, but they offer improved performance on certain NLP tasks.</p>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to create a ColBERT model</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_colbert_model(query, documents):</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract features from the query and documents using BM25</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    bm25_features <span class="op">=</span> bm25_query_and_document(query, documents)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add additional features using late interaction</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    colbert_features <span class="op">=</span> add_late_interaction(bm25_features, query, documents)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> colbert_features</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to calculate BM25 features</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bm25_query_and_document(query, documents):</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Implement BM25 calculation here</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to add late interaction features</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_late_interaction(features, query, documents):</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Implement late interaction calculation here</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, we define a simple ColBERT model that uses BM25 as an early interaction method and adds additional features using late interaction. The <code>bm25_query_and_document</code> function calculates BM25 features, and the <code>add_late_interaction</code> function calculates late interaction features.</p>
 </section>
 </section>
 </div>
 <div id="873c1397-ad6b-4562-9070-9b552c430411" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> LateInteractionTextEmbedding</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LateInteractionTextEmbedding(model_name<span class="op">=</span><span class="st">"colbert-ir/colbertv2.0"</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(documents))</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>embeddings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> LateInteractionTextEmbedding</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LateInteractionTextEmbedding(model_name<span class="op">=</span><span class="st">"colbert-ir/colbertv2.0"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(documents))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>embeddings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>[array([[-0.1351824 ,  0.12230334,  0.1269857 , ...,  0.17307524,
           0.11274203,  0.02880633],
@@ -553,205 +597,139 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="image-embeddings" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="image-embeddings"><span class="header-section-number">3.1</span> Image embeddings</h2>
-<div id="01c095a4-2e2e-4353-9fce-c4b3e4bd482a" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> ImageEmbedding</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> [<span class="st">"images/cat1.jpeg"</span>, <span class="st">"images/cat2.jpeg"</span>, <span class="st">"images/dog1.webp"</span>]</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ImageEmbedding(model_name<span class="op">=</span><span class="st">"Qdrant/clip-ViT-B-32-vision"</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(images))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"f754b827c94045ba9d268a1e4434a1c8","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
+<section id="image-embeddings" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="image-embeddings"><span class="header-section-number">3.4</span> Image embeddings</h2>
+<div id="01c095a4-2e2e-4353-9fce-c4b3e4bd482a" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> ImageEmbedding</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> [<span class="st">"images/cat1.jpeg"</span>, <span class="st">"images/cat2.jpeg"</span>, <span class="st">"images/dog1.webp"</span>]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ImageEmbedding(model_name<span class="op">=</span><span class="st">"Qdrant/clip-ViT-B-32-vision"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed(images))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"4db3316b1aa447e5a45c95e9603aeb5f","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
+<div id="2983017a-6f17-47c2-85de-b61f18d5b787" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> cosine_similarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"ce946da6b13848a9ad7b951b3021b6b2","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"563faea5ec4a44dfb04646e75c5e03be","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-</div>
-<div id="2983017a-6f17-47c2-85de-b61f18d5b787" class="cell" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> cosine_similarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="43167e4c-beb7-4a5d-a50f-3b196a8efca0" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cosine_similarity(np.array(embeddings), np.array(embeddings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div id="43167e4c-beb7-4a5d-a50f-3b196a8efca0" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cosine_similarity(np.array(embeddings), np.array(embeddings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>array([[1.0000001 , 0.83723867, 0.61121917],
        [0.83723867, 1.0000002 , 0.7055948 ],
        [0.61121917, 0.7055948 , 1.0000001 ]], dtype=float32)</code></pre>
 </div>
 </div>
 </section>
-<section id="late-interaction-multimodal-models-colpali" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="late-interaction-multimodal-models-colpali"><span class="header-section-number">3.2</span> Late interaction multimodal models (ColPali)</h2>
-<div id="6c384932-9e4c-4e95-b8ae-403ca6b80ade" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai ollama:llama3<span class="fl">.2</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>topic <span class="op">=</span> <span class="st">"late interaction multimodal models (ColPali)"</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="ss">f"Explain </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">, keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="late-interaction-multimodal-models-colpali-1" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="19" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Late Interaction Multimodal Models (ColPali)</h1>
-<p>Late interaction models are a type of neural network architecture used for multimodal learning tasks, where the goal is to combine multiple sources of data into a single representation.</p>
-<section id="how-it-works-3" class="level3" data-number="4.0.1">
-<h3 data-number="4.0.1" class="anchored" data-anchor-id="how-it-works-3"><span class="header-section-number">4.0.1</span> How it works</h3>
-<p>Traditional late interaction models use self-attention mechanisms to weigh the importance of different tokens in the input sequence relative to each other. However, when dealing with multimodal data (e.g., text and images), we need to consider interactions between different modalities as well.</p>
-<p>The ColPali model is a variant of late interaction models that addresses this challenge. It uses a combination of self-attention and attention mechanisms from different modalities to learn interactions between them.</p>
+<section id="late-interaction-multimodal-models-colpali" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="late-interaction-multimodal-models-colpali"><span class="header-section-number">3.5</span> Late interaction multimodal models (ColPali)</h2>
+<div id="6c384932-9e4c-4e95-b8ae-403ca6b80ade" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Explain late interaction multimodal models (aka ColPali), keep it simple. Demonstrate some example. Give some real-world example"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="late-interaction-multimodal-models-colpali-1" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="27" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> <strong>Late Interaction Multimodal Models (ColPali)</strong></h1>
+<section id="what-is-late-interaction-1" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="what-is-late-interaction-1"><span class="header-section-number">4.0.1</span> What is Late Interaction?</h3>
+<p>Late interaction models are a type of search model that improves the performance of early interaction methods, such as BM25.</p>
 </section>
-<section id="example-code-3" class="level3" data-number="4.0.2">
-<h3 data-number="4.0.2" class="anchored" data-anchor-id="example-code-3"><span class="header-section-number">4.0.2</span> Example Code</h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Import necessary libraries</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>import torch</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>import torch.nn as nn</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>from transformers import ViTFeatureExtractor, ViTModel</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Define a simple late interaction model (simplified for illustration)</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>class ColPali(nn.Module):</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    def __init__(self, vocab_size, hidden_size, img_feature_dim):</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        super(ColPali, self).__init__()</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        self.text_encoder = nn.TransformerEncoderLayer(d_model=hidden_size)</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        self.img_encoder = ViTModel(pretrained=True, feature_extractor=ViTFeatureExtractor.from_pretrained('vit-base-patch16-224')</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                                     )</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        self.decoder = nn.Linear(hidden_size + img_feature_dim, vocab_size)</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="in">    def forward(self, input_text, input_image):</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="in">        # Compute text attention weights</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="in">        text_attention_weights = self.text_encoder(input_text)</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="in">        # Compute image attention weights</span></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="in">        img_attention_weights = self.img_encoder(input_image).pooler_output</span></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="in">        # Apply attention weights to the decoder</span></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="in">        output = self.decoder(torch.cat((text_attention_weights, img_attention_weights), dim=1))</span></span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="in">        return output</span></span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="fu"># Initialize the model and a sample input sequence</span></span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>vocab_size = 1000</span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>hidden_size = 128</span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>img_feature_dim = 1024</span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>input_text = torch.randint(0, vocab_size, (1,))</span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>input_image = torch.randn((1, img_feature_dim))</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Create an instance of the ColPali model</span></span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>model = ColPali(vocab_size, hidden_size, img_feature_dim)</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="fu"># Forward pass</span></span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>output = model(input_text, input_image)</span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>print("Output:", output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="how-does-it-work-3" class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="how-does-it-work-3"><span class="header-section-number">4.0.2</span> How Does it Work?</h3>
+<p>Imagine you’re searching for documents related to a query. Early interaction methods like BM25 use features extracted from the query and the document to rank them. Late interaction models refine these rankings by using additional information, such as the entire document or other relevant documents.</p>
 </section>
-<section id="output-3" class="level3" data-number="4.0.3">
-<h3 data-number="4.0.3" class="anchored" data-anchor-id="output-3"><span class="header-section-number">4.0.3</span> Output</h3>
-<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="an">Output:</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tensor(<span class="co">[</span><span class="ot">0.523 0.219 0.  0.156 0.</span><span class="co">]</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In this example, the ColPali model processes both text and image inputs simultaneously and computes attention weights from both modalities. The output represents the predicted tokens in the input sequence.</p>
+<section id="multimodal-models" class="level3" data-number="4.0.3">
+<h3 data-number="4.0.3" class="anchored" data-anchor-id="multimodal-models"><span class="header-section-number">4.0.3</span> Multimodal Models</h3>
+<p>Multimodal models extend late interaction models to incorporate multiple input modalities, such as text, images, audio, and video.</p>
 </section>
-<section id="real-world-examples-3" class="level3" data-number="4.0.4">
-<h3 data-number="4.0.4" class="anchored" data-anchor-id="real-world-examples-3"><span class="header-section-number">4.0.4</span> Real-world Examples</h3>
+<section id="example-3" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="example-3"><span class="header-section-number">4.1</span> ### Example</h2>
+<p>Let’s say we have a search model that uses ColPali to rank documents for a query “computer science”. The input modalities are:</p>
+<ul>
+<li><strong>Text</strong>: A passage of text related to the query.</li>
+<li><strong>Image</strong>: An image related to the query (e.g.&nbsp;a diagram of a computer chip).</li>
+<li><strong>Audio</strong>: An audio file related to the query (e.g.&nbsp;a lecture on machine learning).</li>
+</ul>
+<p>The ColPali model extracts features from each modality and combines them using late interaction. The final ranking is based on the weighted sum of these features.</p>
+</section>
+<section id="real-world-examples-3" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="real-world-examples-3"><span class="header-section-number">4.2</span> ### Real-World Examples</h2>
 <ol type="1">
-<li><strong>Multimodal sentiment analysis</strong>: Modeling sentiments from text and images.</li>
-<li><strong>Visual question answering (VQA)</strong>: Answering questions based on visual information from an image.</li>
-<li><strong>Multimodal machine translation</strong>: Translating text into a target language while considering the corresponding image or video.</li>
+<li><strong>Image Search with Text Description</strong>: Late interaction multimodal models can be used to search images based on a text description.</li>
+<li><strong>Speech Recognition with Visual Feedback</strong>: ColPali can be used in speech recognition systems that incorporate visual feedback, such as displaying the recognized text in real-time.</li>
+<li><strong>Multimodal Question Answering</strong>: Late interaction multimodal models can be used to answer questions that require information from multiple input modalities (e.g.&nbsp;text, images, audio).</li>
 </ol>
 </section>
-<section id="real-world-applications-2" class="level3" data-number="4.0.5">
-<h3 data-number="4.0.5" class="anchored" data-anchor-id="real-world-applications-2"><span class="header-section-number">4.0.5</span> Real-world Applications:</h3>
-<ol type="1">
-<li>Sentiment Analysis</li>
-<li>Visual Question Answering</li>
-<li>Multimodal Machine Translation</li>
-</ol>
-<p>Note that ColPali models are more computationally expensive than traditional late interaction models, but they offer improved performance on certain multimodal learning tasks.</p>
+<section id="code-example-3" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="code-example-3"><span class="header-section-number">4.3</span> ### Code Example</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to create a ColPali model</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_colpali_model(query, text, image, audio):</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract features from each modality using late interaction</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    text_features <span class="op">=</span> extract_features(text, query)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    image_features <span class="op">=</span> extract_features(image, query)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    audio_features <span class="op">=</span> extract_features(audio, query)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine features using weighted sum</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    combined_features <span class="op">=</span> combine_features(text_features, image_features, audio_features)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> combined_features</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to extract features from text using late interaction</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_features(text, query):</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Implement late interaction calculation here</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to combine features using weighted sum</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> combine_features(text_features, image_features, audio_features):</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Implement weighted sum calculation here</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, we define a simple ColPali model that uses late interaction to extract features from each modality and combines them using a weighted sum. The <code>extract_features</code> function calculates features for each modality, and the <code>combine_features</code> function calculates the final combined features.</p>
 </section>
 </section>
 </div>
-<div id="db2e7251-921a-4f24-8fbe-41790107d592" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> LateInteractionMultimodalEmbedding</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>doc_images <span class="op">=</span> [</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_computer_science.png"</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_technology.png"</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_space.png"</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"what is tech"</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LateInteractionMultimodalEmbedding(model_name<span class="op">=</span><span class="st">"Qdrant/colpali-v1.3-fp16"</span>)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>doc_images_embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed_image(doc_images))</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>query_embedding <span class="op">=</span> model.embed_text(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="db2e7251-921a-4f24-8fbe-41790107d592" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> LateInteractionMultimodalEmbedding</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>doc_images <span class="op">=</span> [</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_computer_science.png"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_technology.png"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/wiki_space.png"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"what is tech"</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LateInteractionMultimodalEmbedding(model_name<span class="op">=</span><span class="st">"Qdrant/colpali-v1.3-fp16"</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>doc_images_embeddings <span class="op">=</span> <span class="bu">list</span>(model.embed_image(doc_images))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>query_embedding <span class="op">=</span> model.embed_text(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7e797b37-0af9-409b-af8c-952f715483e1" class="cell" data-execution_count="71">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> models</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.multi_distances <span class="im">import</span> calculate_multi_distance</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># How to calculate distance?</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># from qdrant_client.local.sparse_distances import calculate_distance_sparse</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate_multi_distance(</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     query_embedding,</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     doc_images_embeddings,</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     # distance_type=models.MultiVectorComparator.MAX_SIM,</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     distance_type=models.Distance.DOT,</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7e797b37-0af9-409b-af8c-952f715483e1" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> models</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.multi_distances <span class="im">import</span> calculate_multi_distance</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># How to calculate distance?</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># from qdrant_client.local.sparse_distances import calculate_distance_sparse</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate_multi_distance(</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     query_embedding,</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     doc_images_embeddings,</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     # distance_type=models.MultiVectorComparator.MAX_SIM,</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     distance_type=models.Distance.DOT,</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="rerankers" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="rerankers"><span class="header-section-number">4.1</span> Rerankers</h2>
-<div id="318803d6-cb06-4c9b-abcd-614fc16d5a9b" class="cell" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed.rerank.cross_encoder <span class="im">import</span> TextCrossEncoder</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Who is maintaining Qdrant?"</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>documents: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> [</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"This is built to be faster and lighter than other embedding libraries e.g. Transformers, Sentence-Transformers, etc."</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fastembed is supported by and maintained by Qdrant."</span>,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> TextCrossEncoder(model_name<span class="op">=</span><span class="st">"Xenova/ms-marco-MiniLM-L-6-v2"</span>)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> <span class="bu">list</span>(encoder.rerank(query, documents))</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"72938569506b4d4d80e6089c7df9bd64","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"c581c0cf901145b18ee15acf80d744c2","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"7e5f5264e8c14ec9b127cafec0e2fd26","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"bf598d911b2c4c9bba423bbd8abd8e5d","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"99eb0badf5fe459b8b9a435ca6493495","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"d4f75915f21f4d50bc8638621feba11a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="72">
-<pre><code>[-11.48061752319336, 5.472436428070068]</code></pre>
-</div>
+<section id="rerankers" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="rerankers"><span class="header-section-number">4.4</span> Rerankers</h2>
+<div id="318803d6-cb06-4c9b-abcd-614fc16d5a9b" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed.rerank.cross_encoder <span class="im">import</span> TextCrossEncoder</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Who is maintaining Qdrant?"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>documents: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> [</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"This is built to be faster and lighter than other embedding libraries e.g. Transformers, Sentence-Transformers, etc."</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fastembed is supported by and maintained by Qdrant."</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> TextCrossEncoder(model_name<span class="op">=</span><span class="st">"Xenova/ms-marco-MiniLM-L-6-v2"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> <span class="bu">list</span>(encoder.rerank(query, documents))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
