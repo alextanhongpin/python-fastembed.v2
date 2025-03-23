@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "black>=25.1.0",
     "datasets>=3.4.1",
+    "docling-core>=2.23.3",
     "inflection>=0.5.1",
     "ipywidgets>=8.1.5",
     "isort>=6.0.1",
@@ -23,6 +24,8 @@ dependencies = [
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.2",
     "sentence-transformers>=3.4.1",
+    "torch>=2.6.0",
     "tqdm>=4.67.1",
+    "transformers>=4.50.0",
     "unstructured[pdf]>=0.17.2",
 ]

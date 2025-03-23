@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Essentials: 5 Minute RAG with Qdrant and DeepSeek – python applied machine learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-49c8c4e9abc5c85f6ef827bc95f3ef76.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./e_002_rag_deepseek.html">Essentials: 5 Minute RAG with Qdrant and DeepSeek</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">python applied machine learning</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dense text embedding</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_qdrant_client.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">002 Qdrant Client</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./003_fastembed_text_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to generate Text Embeddings with FastEmbed</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./004_production_ready.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">004 Production Ready</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_splade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to generate Sparse Vectors with SPLADE</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_generate_colbert_multivectors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Generate ColBERT Multivectors with FastEmbed</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_reranking_fastembed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reranking with fastembed</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./008_smalldocling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">OCR with SmallDocling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">010 Long Context</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ar101_001_collaborative_filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advance Retrieval 101: Use Collaborative Filtering to Build a Movie Recommendation System</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ar101_002_multilingual_and_multimodal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Retrieval 101 Multilingual and Multimodal Search with LlamaIndex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ar101_003_navigate_codebase.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Retrieval 101: Navigate Your Codebase with Semantic Search and Qdrant</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./e_001_data_ingestion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Essentials: Data Ingestion for Beginners</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./e_002_rag_deepseek.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Essentials: 5 Minute RAG with Qdrant and DeepSeek</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_001_basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build your first Semantic Search Engine in 5 minutes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_002_build_neural_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build a Neural Search Service</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_003_hybrid_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Build a Hybrid Search Service with FastEmbed and Qdrant</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss101_004_measure_and_improve_retrieval_quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Search 101: Measure and Improve Retrieval Quality in Semantic Search</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Essentials: 5 Minute RAG with Qdrant and DeepSeek</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>https://qdrant.tech/documentation/rag-deepseek/</p>
+<div id="a14b4ed6-2050-438f-ba3f-12925d838395" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> QdrantClient, models</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3f41f675-f172-4878-900f-a9d8aa753906" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> QdrantClient(<span class="st">":memory:"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>client.set_model(<span class="st">"BAAI/bge-base-en-v1.5"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>client.add(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"knowledge-base"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The collection is automatically created if it doesn't exist.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>[</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Qdrant is a vector database &amp; vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Docker helps developers build, share, and run applications anywhere — without tedious environment configuration or management."</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing."</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"MySQL is an open-source relational database management system (RDBMS). A relational database organizes data into one or more data tables in which data may be related to each other; these relations help structure the data. SQL is a language that programmers use to create, modify and extract data from the relational database, as well as control user access to the database."</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption."</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints."</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining."</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs (commands or shell scripts), also known as cron jobs, to run periodically at fixed times, dates, or intervals."</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"8703ac373720496b804a998945f641ba","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"f15d3676ac2f41f4b78b2c46ed99af7a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"6847071b9ce048769f9c3b23f810bf3c","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"3efff0377c5f41dc8e4e8ea404598f00","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"98b58f990e5d4161ac5231b5eb201d50","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"e21189bffeed414ea4a5c4b8e25152f4","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['60aabd4c0a9a4323a4d613a068c36e33',
+ 'b8f3fbe4a4734476a25d6e07ce6f962c',
+ '2d5bec3dd79e415187c34dcd23332281',
+ '5f30e4332ed745e3921756ba3b6db0f3',
+ 'e714a72590ee451588adce8f05debdf5',
+ '1e2833b9c65a4101918c4b8fd80d311d',
+ '908559de554048d4bdd6342e6dfc96f6',
+ '7034b9f4df0f4e1bbd849de14b2a8601']</code></pre>
+</div>
+</div>
+<div id="2ecf8fbe-f965-4257-b9cb-b667f1ffcb69" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">What tools should I need to use to build a web service using vector embeddings for search?</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0c0ec80c-95a5-480e-8e68-99706436a706" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> ChatResponse, chat</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> query_deepseek(prompt) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    response: ChatResponse <span class="op">=</span> chat(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span><span class="st">"deepseek-r1:8b"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"content"</span>: prompt,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            },</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.message.content</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="61bad8c2-db10-4cf1-badb-8ed492157ff3" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>query_deepseek(prompt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>"&lt;think&gt;\nOkay, so I'm trying to figure out what tools I need to build a web service that uses vector embeddings for search. I remember hearing about vector embeddings in the context of machine learning and natural language processing, but I'm not exactly sure how they work or how they can be applied to building a search function.\n\nFirst, I think I need some way to generate these vectors from text inputs. Maybe there are libraries that can create embeddings based on the input data. The assistant mentioned TensorFlow and PyTorch as deep learning frameworks. Since I have some Python experience, maybe I should start with those. But what exactly do they offer in terms of vector embeddings?\n\nI remember there's something called Word2Vec which creates word vectors. So perhaps using a pre-trained model or implementing one could help generate these embeddings for each query. Also, FastText comes up often as an alternative to Word2 Vec, and it can handle subwords, which might be useful if my application deals with partial matches.\n\nNext, I need a way to store these vectors so they can be searched efficiently. The assistant talked about FAISS, which is a library for similarity search. That sounds like exactly what I need because it's optimized for fast approximate searches. But I think FAISS is more for similarity-based searches rather than exact matches. How do I handle when the query isn't an exact match but close to one?\n\nThen there's Milvus, another vector search engine that can handle large datasets. It seems like both FAISS and Milvus are good options, but maybe depending on the scale of my application. If it's small, FAISS might be easier to set up. But if I expect a lot of queries or a large corpus, Milvus could be better.\n\nAfter that, building an API is essential so other services can send requests and receive results. The assistant mentioned Flask for microservices and FastAPI as an alternative. I've heard FastAPI is faster and more modern, so maybe it's worth learning that instead of Flask. Also, using ASGI instead of WSGI could make the server more efficient.\n\nFor the search logic itself, implementing a function that takes user input, generates embeddings, and then searches through the stored vectors makes sense. But how do I handle ranking? Do I just get the most similar vector, or do I have to implement some way to score them?\n\nOn the database side, I need something that can store vectors efficiently and allow for fast lookups. Maybe using a NoSQL database like MongoDB or PostgreSQL with specific data types that can handle vectors. But how do I structure the documents so that they're easily searchable? Should each document have its vector stored as well as metadata?\n\nTesting will be important too, especially since embeddings can sometimes have accuracy issues. The assistant mentioned sentence embedding models, which might be necessary if I'm dealing with phrases instead of individual words.\n\nThe user experience is another consideration. How do users input their search queries? Do they type in text, submit a form, and get results based on that? Also, how to handle cases where the query doesn't exactly match anything but has similar concepts.\n\nCost is something to think about too. If I'm using cloud-based services like AWS or Google Cloud with their managed solutions, it might be more accessible than setting up everything from scratch, especially if I don't have a lot of computational resources on my own servers.\n\nI also wonder about the efficiency of generating embeddings. For each query, is there a limit to how many vectors can be processed quickly? If the application is going to handle a lot of queries, I might need to optimize the embedding generation process, maybe using pre-processing steps or caching results.\n\nAnother thing is handling multiple languages. If my service needs to support different languages, I'll have to decide on monolingual or multilingual embeddings. Word2Vec can be trained for specific languages, while BERT embeddings are multilingual. But training BERT might require more resources and expertise.\n\nIn terms of deployment, containerization with Docker could help package the application into a container that can run anywhere. Caching strategies might also improve performance by storing frequently accessed results or embeddings to reduce processing time on subsequent queries.\n\nDocumentation is important too. Users will need clear instructions on how to use the service effectively. Also, error handling and rate limiting should be considered to prevent abuse or overuse of the service.\n\nI'm a bit overwhelmed with all these aspects, but breaking it down into steps might help. First, choose the vector embedding method, then pick the search engine, set up the API, store data appropriately, implement the query logic, handle results ranking, and ensure efficient processing. Testing each component as I go would make it manageable.\n\nI should probably start by installing one of the deep learning libraries like TensorFlow or PyTorch and try a simple embedding model. Then experiment with FAISS or Milvus to see how they integrate with my data. Once that's working, move on to building the API with FastAPI and set up a basic search endpoint.\n\nI'm also thinking about data preprocessing. What format do I need my text data in? Should I use TF-IDF for term frequency, or is embedding generation sufficient? Maybe a combination of both could improve the search results by using TF-IDF for ranking and embeddings for similarity.\n\nOverall, it's a complex task but manageable with the right tools and step-by-step approach. I'll need to stay updated on the latest libraries and maybe join some forums or communities where people discuss vector search applications to troubleshoot any issues.\n&lt;/think&gt;\n\nTo build a web service using vector embeddings for search, follow this structured approach:\n\n### 1. **Vector Embedding Tools**\n   - **Libraries**: Utilize deep learning frameworks like TensorFlow or PyTorch for generating word or sentence embeddings. Pre-trained models such as Word2Vec, FastText, or BERT can be used.\n     - Example: Use Word2Vec for monolingual embeddings or BERT for multilingual embeddings.\n\n### 2. **Vector Search Engines**\n   - **FAISS**: Implement for efficient similarity search with exact or approximate matches using binary search techniques.\n   - **Milvus**: Suitable for large datasets and scalable applications, offering efficient vector searches.\n\n### 3. **API Development**\n   - **Framework Selection**: Use FastAPI for a modern, high-performance API, or Flask if starting simpler.\n   - **ASGI**: Utilize ASGI to enhance server efficiency compared to WSGI.\n\n### 4. **Database Integration**\n   - **NoSQL Databases**: Use MongoDB or PostgreSQL with appropriate data types (e.g., JSONB for storing vectors).\n   - **Data Structure**: Store documents with text content, embeddings, and metadata for efficient queries.\n\n### 5. **Query Processing and Search Logic**\n   - **Embedding Generation**: For each query, generate embeddings using the chosen model.\n   - **Search Functionality**: Implement logic to search through stored vectors, handle exact matches, similar embeddings, and ranking mechanisms.\n\n### 6. **User Interface and Experience**\n   - **Input Handling**: Allow text input through forms or APIs for user queries.\n   - **Output**: Return relevant results based on embedding similarity scores.\n\n### 7. **Efficiency Considerations**\n   - **Preprocessing and Caching**: Optimize query processing with preprocessing steps and caching strategies to improve response times.\n   - **Dockerization**: Containerize the application for easy deployment and scalability.\n\n### 8. **Testing and Validation**\n   - **Testing Frameworks**: Use pytest or similar tools to validate embedding accuracy and search effectiveness.\n   - **Sentence Embeddings**: Consider using pre-trained sentence embeddings for phrase-based searches.\n\n### 9. **Scalability and Resources**\n   - **Cloud Services**: Utilize AWS, Google Cloud, or Azure for managed solutions that scale with your application needs.\n   - **Monitoring**: Implement monitoring tools to track performance and handle high loads efficiently.\n\n### 10. **Documentation and User Experience**\n   - **Comprehensive Documentation**: Provide clear guides for users on how to use the service effectively.\n   - **Error Handling and Rate Limiting**: Implement measures to manage errors and prevent abuse.\n\nBy following these steps, you can build a robust web service that leverages vector embeddings for effective search, providing a seamless user experience while efficiently managing resources."</code></pre>
+</div>
+</div>
+<div id="781441f7-f87b-4e0a-80a2-3f238fa916cc" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> client.query(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"knowledge-base"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    query_text<span class="op">=</span>prompt,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>[QueryResponse(id='60aabd4c0a9a4323a4d613a068c36e33', embedding=None, sparse_embedding=None, metadata={'document': 'Qdrant is a vector database &amp; vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!'}, document='Qdrant is a vector database &amp; vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!', score=0.6944532100424724),
+ QueryResponse(id='908559de554048d4bdd6342e6dfc96f6', embedding=None, sparse_embedding=None, metadata={'document': 'SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.'}, document='SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.', score=0.6269391815273497),
+ QueryResponse(id='1e2833b9c65a4101918c4b8fd80d311d', embedding=None, sparse_embedding=None, metadata={'document': 'FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.'}, document='FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.', score=0.5811869898549256)]</code></pre>
+</div>
+</div>
+<div id="196103ae-e2bd-44cf-b2af-9e84db39e8fe" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(r.document <span class="cf">for</span> r <span class="kw">in</span> results)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>context</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="78508e55-60c2-4363-b822-14c3e17d4e84" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>metaprompt <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ss">You are a software architect. </span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ss">Answer the following question using the provided context. </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ss">If you can't find the answer, do not pretend you know it, but answer "I don't know".</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ss">Question: </span><span class="sc">{</span>prompt<span class="sc">.</span>strip()<span class="sc">}</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="ss">Context: </span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="sc">{</span>context<span class="sc">.</span>strip()<span class="sc">}</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ss">Answer:</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the full metaprompt</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metaprompt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="73559a5f-f58a-410b-af75-52112adfd787" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>query_deepseek(metaprompt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3b7bdf24-9364-4291-a681-e5a4b2a6e8cd" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rag(question: <span class="bu">str</span>, n_points: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> client.query(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        collection_name<span class="op">=</span><span class="st">"knowledge-base"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        query_text<span class="op">=</span>question,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        limit<span class="op">=</span>n_points,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    context <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(r.document <span class="cf">for</span> r <span class="kw">in</span> results)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    metaprompt <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="ss">    You are a software architect. </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ss">    Answer the following question using the provided context. </span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="ss">    If you can't find the answer, do not pretend you know it, but only answer "I don't know".</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    Question: </span><span class="sc">{</span>question<span class="sc">.</span>strip()<span class="sc">}</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    Context: </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="sc">{</span>context<span class="sc">.</span>strip()<span class="sc">}</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="ss">    Answer:</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="ss">    """</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> query_deepseek(metaprompt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2acf817e-66de-48ba-a917-5aef14cb83e8" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rag(<span class="st">"What can the stack for a web api look like?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;think&gt;
+Okay, so I need to figure out what a stack for a web API might look like. Let me start by understanding the question. The user is asking about the structure of a web API's stack, given some context about FastAPI, NGINX, and Docker.
+
+From the context, FastAPI is described as a modern, high-performance web framework for building APIs using Python 3.7+. So that might be part of the application layer or backend.
+
+NGINX is mentioned as a high-performance HTTP server and reverse proxy, which typically sits in front of other applications. It's known for its performance, so maybe it's part of the infrastructure layer handling incoming requests.
+
+Docker is a containerization platform that helps build, share, and run applications without managing environments. So Docker would be related to the deployment or orchestration layer, allowing the application to be containerized and deployed efficiently.
+
+Putting this together, the stack for a web API might include FastAPI as the backend framework, NGINX as the reverse proxy and HTTP server, and Docker for containerization and deployment. That makes sense because each component serves a specific role in the overall architecture.
+
+I should structure it step by step: starting from the application (FastAPI), then the reverse proxy (NGINX), and then the containerization/Docker for deployment. This layered approach ensures that each part is handling its responsibilities efficiently.
+&lt;/think&gt;
+
+The stack for a web API could consist of FastAPI as the backend framework, NGINX as the reverse proxy and HTTP server, and Docker for containerization and deployment.
+
+**Answer:**
+A typical web API stack might include:
+- **Application Layer**: FastAPI (for building APIs with Python).
+- **Reverse Proxy/HTTP Server**: NGINX (handling incoming requests and routing).
+- **Containerization/Orchestration**: Docker (deploying the application efficiently).
+
+This layered approach ensures efficient handling of both backend logic and infrastructure.</code></pre>
+</div>
+</div>
+<div id="2fa05761-73c3-4c9a-8ffd-16643e406f28" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rag(<span class="st">"Where is the nearest grocery store?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;think&gt;
+Okay, so the user is asking where the nearest grocery store is. Hmm, but looking at the context provided, it's all about software stuff: Qdrant, FastAPI, NGINX. None of that mentions anything related to grocery stores or locations. So I can't find any information here that would help answer their question. I should just say I don't know because there's no relevant data in the context. No point in making something up or guessing; better to be honest.
+&lt;/think&gt;
+
+I don't know.</code></pre>
+</div>
+</div>
+<div id="33d2515e-1485-42c2-bf16-e8da1060b0a1" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rag(prompt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;think&gt;
+Okay, so I need to figure out the tools required to build a web service that uses vector embeddings for search. Let me start by understanding what each part means.
+
+First, vector embeddings are like converting text or data into numerical vectors, right? These vectors can then be used to find similar items, which is useful for things like search or recommendations.
+
+Looking at the context provided, there are three tools mentioned: Qdrant, SentenceTransformers, and FastAPI. Let me break them down.
+
+Qdrant is described as a vector database and search engine. It acts as an API service, so it probably handles the actual storage and searching of these vectors. That makes sense because building a database from scratch would be time-consuming. So if I need to deploy a vector search service quickly, Qdrant might be the way to go.
+
+Next, SentenceTransformers is a Python framework for generating embeddings. It can handle text in over 100 languages and provides sentence embeddings. This tool is useful for tasks like semantic search or paraphrase mining because it generates vectors that represent the meaning of the text. So if I need to create these embeddings, SentenceTransformers would be necessary.
+
+Then there's FastAPI, which is a Python web framework known for its high performance. It uses standard type hints and is great for building APIs. Since the goal is to build a web service, having an efficient API layer is crucial. So combining FastAPI with the other tools might allow me to serve embeddings and perform searches via an API.
+
+Putting it all together: I think the process would involve using SentenceTransformers to generate the embeddings (maybe from text input), storing them in Qdrant's database, and then using FastAPI to create an endpoint that allows users to query this database. This way, clients can send a query, get it processed through FastAPI, which communicates with Qdrant to find the most relevant vectors based on cosine similarity or other similarity measures.
+
+Wait, but do I need anything else? Maybe some kind of middleware or orchestration tools? Or perhaps a reverse proxy like Gunicorn if I'm deploying multiple services. But the question specifically asks for tools to build the web service using vector embeddings, so maybe those aren't necessary unless specified.
+
+I should also consider deployment aspects. If Qdrant is already providing an API service, maybe it's hosted somewhere or I need to deploy it myself with Docker or Kubernetes. FastAPI would be deployed alongside it, perhaps on the same infrastructure.
+
+So in summary, the three main tools needed are:
+
+1. SentenceTransformers for generating embeddings from text.
+2. Qdrant for storing and searching these vectors.
+3. FastAPI to create the web interface and API endpoints that interact with both SentenceTransformers and Qdrant.
+
+I don't think there's a need for other tools unless there's more complexity, like data preprocessing or additional features beyond basic search. But based on the provided context, these three seem essential.
+&lt;/think&gt;
+
+To build a web service using vector embeddings for search, you should use:
+
+1. **SentenceTransformers**: Generate text embeddings from input text.
+2. **Qdrant**: Store and search these embeddings efficiently.
+3. **FastAPI**: Build the API endpoints to handle requests and interact with Qdrant.
+
+These tools collectively allow you to create a service that processes text, converts it into vectors using SentenceTransformers, stores them in Qdrant for fast similarity searches, and serves results via an API built with FastAPI.</code></pre>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

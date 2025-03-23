@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>long_context – python applied machine learning</title>
+<title>OCR with SmallDocling – python applied machine learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -113,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_long_context.html">010 Long Context</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./008_smalldocling.html">OCR with SmallDocling</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,13 +186,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./008_smalldocling.html" class="sidebar-item-text sidebar-link">
+  <a href="./008_smalldocling.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">OCR with SmallDocling</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link active">
+  <a href="./010_long_context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">010 Long Context</span></a>
   </div>
 </li>
@@ -255,140 +259,220 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">OCR with SmallDocling</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<div id="9c8cda28-01ab-4fc9-ab73-d24d91bb2dd4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext jupyter_ai</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>config AiMagics.default_language_model <span class="op">=</span> <span class="st">"ollama:llama3.2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>https://huggingface.co/ds4sd/SmolDocling-256M-preview</p>
+<div id="b2b0c896-a94a-4b90-b33d-d3d95f520924" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prerequisites:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install torch</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install docling_core</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install transformers</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> docling_core.types.doc <span class="im">import</span> DoclingDocument</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> docling_core.types.doc.document <span class="im">import</span> DocTagsDocument</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForVision2Seq, AutoProcessor</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers.image_utils <span class="im">import</span> load_image</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> <span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Load images</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> load_image(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"images/us_stock_market_news.png"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "https://upload.wikimedia.org/wikipedia/commons/7/76/GazettedeFrance.jpg"</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize processor and model</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>processor <span class="op">=</span> AutoProcessor.from_pretrained(<span class="st">"ds4sd/SmolDocling-256M-preview"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForVision2Seq.from_pretrained(</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ds4sd/SmolDocling-256M-preview"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    _attn_implementation<span class="op">=</span><span class="st">"flash_attention_2"</span> <span class="cf">if</span> DEVICE <span class="op">==</span> <span class="st">"cuda"</span> <span class="cf">else</span> <span class="st">"eager"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>).to(DEVICE)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Create input messages</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"content"</span>: [</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"type"</span>: <span class="st">"image"</span>},</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"type"</span>: <span class="st">"text"</span>, <span class="st">"text"</span>: <span class="st">"Convert this page to docling."</span>},</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare inputs</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> processor.apply_chat_template(messages, add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> processor(text<span class="op">=</span>prompt, images<span class="op">=</span>[image], return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> inputs.to(DEVICE)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate outputs</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>generated_ids <span class="op">=</span> model.generate(<span class="op">**</span>inputs, max_new_tokens<span class="op">=</span><span class="dv">8192</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>prompt_length <span class="op">=</span> inputs.input_ids.shape[<span class="dv">1</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>trimmed_generated_ids <span class="op">=</span> generated_ids[:, prompt_length:]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>doctags <span class="op">=</span> processor.batch_decode(</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    trimmed_generated_ids,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    skip_special_tokens<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>)[<span class="dv">0</span>].lstrip()</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Populate document</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>doctags_doc <span class="op">=</span> DocTagsDocument.from_doctags_and_image_pairs([doctags], [image])</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(doctags)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># create a docling document</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> DoclingDocument(name<span class="op">=</span><span class="st">"Document"</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>doc.load_from_doctags(doctags_doc)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co"># export as any format</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Path("Out/").mkdir(parents=True, exist_ok=True)</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co"># output_path_html = Path("Out/") / "example.html"</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># doc.save_as_html(output_path_html)</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co"># MD</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(doc.export_to_markdown())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"22d2878ec07e4f9abbf48e8e007a7809","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="8082bf4b-45b8-4902-9443-84e096cfc804" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ai</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">"Generate a super long text of 1000 words about my cat"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="my-feline-friend" class="level1 cell-output cell-output-display cell-output-markdown" data-execution_count="2" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> My Feline Friend</h1>
-<section id="introduction" class="level3" data-number="1.0.1">
-<h3 data-number="1.0.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.0.1</span> Introduction</h3>
-<p>My cat, Mr.&nbsp;Whiskers, has been a constant companion in my life for several years now. He is a sleek and agile feline with a shiny coat that comes in a variety of colors depending on the lighting conditions. Despite his refined appearance, Mr.&nbsp;Whiskers is a playful and mischievous creature who always keeps me entertained.</p>
-</section>
-<section id="physical-characteristics" class="level3" data-number="1.0.2">
-<h3 data-number="1.0.2" class="anchored" data-anchor-id="physical-characteristics"><span class="header-section-number">1.0.2</span> Physical Characteristics</h3>
-<p>Mr.&nbsp;Whiskers is a medium-sized cat with a muscular build. He has a short, smooth coat that ranges in color from grey to black, with distinctive white markings on his paws and chest. His eyes are a bright green, and his whiskers (as his name suggests) are incredibly long and sensitive. Despite their impressive length, Mr.&nbsp;Whiskers’ whiskers rarely get tangled or caught in anything.</p>
-</section>
-<section id="personality" class="level3" data-number="1.0.3">
-<h3 data-number="1.0.3" class="anchored" data-anchor-id="personality"><span class="header-section-number">1.0.3</span> Personality</h3>
-<p>Mr.&nbsp;Whiskers is an extremely affectionate cat who loves to be around people. He has a special fondness for human attention, and will often seek out cuddles and pets from me whenever he’s feeling particularly playful. However, despite his affectionate nature, Mr.&nbsp;Whiskers can also be quite demanding at times. If he doesn’t get the attention or playtime he wants, he’ll let me know about it in loud, insistent meows that can pierce through even the most concentrated work session.</p>
-</section>
-<section id="playtime" class="level3" data-number="1.0.4">
-<h3 data-number="1.0.4" class="anchored" data-anchor-id="playtime"><span class="header-section-number">1.0.4</span> Playtime</h3>
-<p>One of my favorite things to do with Mr.&nbsp;Whiskers is engage him in a game of “hide-and-seek.” I’ll hide treats or toys around the house, and encourage Mr.&nbsp;Whiskers to find them for himself. He’s incredibly skilled at this game, using his powerful sense of smell to track down even the most elusive hiding spots.</p>
-</section>
-<section id="sleeping-habits" class="level3" data-number="1.0.5">
-<h3 data-number="1.0.5" class="anchored" data-anchor-id="sleeping-habits"><span class="header-section-number">1.0.5</span> Sleeping Habits</h3>
-<p>Despite his energetic personality, Mr.&nbsp;Whiskers is also a heavy sleeper. He’ll often spend hours curled up in a sunbeam or under my bed, snoozing peacefully as I go about my day. It’s not uncommon for me to walk by him without even noticing he’s there, only to have him suddenly wake up and pounce on my arm with a playful swat.</p>
-</section>
-<section id="grooming-habits" class="level3" data-number="1.0.6">
-<h3 data-number="1.0.6" class="anchored" data-anchor-id="grooming-habits"><span class="header-section-number">1.0.6</span> Grooming Habits</h3>
-<p>Mr.&nbsp;Whiskers is extremely fastidious when it comes to his grooming habits. He spends hours each day licking and nuzzling his fur to keep it clean and well-coated. This means that he’s always looking immaculate, even after a particularly messy play session or three.</p>
-</section>
-<section id="special-quirks" class="level3" data-number="1.0.7">
-<h3 data-number="1.0.7" class="anchored" data-anchor-id="special-quirks"><span class="header-section-number">1.0.7</span> Special Quirks</h3>
-<p>One of Mr.&nbsp;Whiskers’ most endearing quirks is his love of chasing invisible prey. He’ll spend hours stalking imaginary mice or birds around the house, pouncing on them with lightning-fast reflexes only to realize they’re not really there. It’s hilarious to watch him in action, and always leaves me laughing.</p>
-</section>
-<section id="favorite-activities" class="level3" data-number="1.0.8">
-<h3 data-number="1.0.8" class="anchored" data-anchor-id="favorite-activities"><span class="header-section-number">1.0.8</span> Favorite Activities</h3>
-<p>In addition to playtime, Mr.&nbsp;Whiskers also enjoys a good scratch behind the ears or under the chin. He’ll sit for hours letting me rub his favorite spots, purring contentedly as I work out the knots and tangles in his fur. Another of his favorite activities is lounging on my lap while I watch TV or read a book.</p>
-</section>
-<section id="impact-on-daily-life" class="level3" data-number="1.0.9">
-<h3 data-number="1.0.9" class="anchored" data-anchor-id="impact-on-daily-life"><span class="header-section-number">1.0.9</span> Impact on Daily Life</h3>
-<p>Despite his small size, Mr.&nbsp;Whiskers has a significant impact on my daily life. He’s always there to brighten up my day with his antics and affectionate nature. Whether he’s chasing invisible prey or simply curled up in a ball at my feet, Mr.&nbsp;Whiskers is a constant source of comfort and companionship.</p>
-</section>
-<section id="benefits-of-owning-a-cat" class="level3" data-number="1.0.10">
-<h3 data-number="1.0.10" class="anchored" data-anchor-id="benefits-of-owning-a-cat"><span class="header-section-number">1.0.10</span> Benefits of Owning a Cat</h3>
-<p>One of the many benefits of owning a cat like Mr.&nbsp;Whiskers is the sense of calm and relaxation that comes with having him around. Studies have shown that simply petting a cat can lower your blood pressure, heart rate, and stress levels, making it easier to unwind after a long day.</p>
-</section>
-<section id="conclusion" class="level3" data-number="1.0.11">
-<h3 data-number="1.0.11" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.0.11</span> Conclusion</h3>
-<p>In conclusion, my life would not be complete without Mr.&nbsp;Whiskers by my side. He’s more than just a pet – he’s a beloved companion, a source of comfort and joy, and an endless source of entertainment. Whether he’s chasing invisible prey or simply lounging in the sun, Mr.&nbsp;Whiskers is always up to something interesting.</p>
-</section>
-<section id="final-thoughts" class="level3" data-number="1.0.12">
-<h3 data-number="1.0.12" class="anchored" data-anchor-id="final-thoughts"><span class="header-section-number">1.0.12</span> Final Thoughts</h3>
-<p>As I reflect on my time with Mr.&nbsp;Whiskers, I’m struck by his remarkable adaptability and resilience. Despite his many quirks and eccentricities, he remains a loyal and loving companion who brings endless joy and happiness into my life.</p>
-</section>
-</section>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"121293acd178467d8bccd4ab6322c9bf","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="84970343-695b-449e-9546-f7772163d76e" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>document <span class="op">=</span> <span class="st">"""My Feline Friend¶</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">Introduction</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">My cat, Mr. Whiskers, has been a constant companion in my life for several years now. He is a sleek and agile feline with a shiny coat that comes in a variety of colors depending on the lighting conditions. Despite his refined appearance, Mr. Whiskers is a playful and mischievous creature who always keeps me entertained.</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">Physical Characteristics</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is a medium-sized cat with a muscular build. He has a short, smooth coat that ranges in color from grey to black, with distinctive white markings on his paws and chest. His eyes are a bright green, and his whiskers (as his name suggests) are incredibly long and sensitive. Despite their impressive length, Mr. Whiskers' whiskers rarely get tangled or caught in anything.</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">Personality</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is an extremely affectionate cat who loves to be around people. He has a special fondness for human attention, and will often seek out cuddles and pets from me whenever he's feeling particularly playful. However, despite his affectionate nature, Mr. Whiskers can also be quite demanding at times. If he doesn't get the attention or playtime he wants, he'll let me know about it in loud, insistent meows that can pierce through even the most concentrated work session.</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">Playtime</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">One of my favorite things to do with Mr. Whiskers is engage him in a game of "hide-and-seek." I'll hide treats or toys around the house, and encourage Mr. Whiskers to find them for himself. He's incredibly skilled at this game, using his powerful sense of smell to track down even the most elusive hiding spots.</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">Sleeping Habits</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">Despite his energetic personality, Mr. Whiskers is also a heavy sleeper. He'll often spend hours curled up in a sunbeam or under my bed, snoozing peacefully as I go about my day. It's not uncommon for me to walk by him without even noticing he's there, only to have him suddenly wake up and pounce on my arm with a playful swat.</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="st">Grooming Habits</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="st">Mr. Whiskers is extremely fastidious when it comes to his grooming habits. He spends hours each day licking and nuzzling his fur to keep it clean and well-coated. This means that he's always looking immaculate, even after a particularly messy play session or three.</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="st">Special Quirks</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="st">One of Mr. Whiskers' most endearing quirks is his love of chasing invisible prey. He'll spend hours stalking imaginary mice or birds around the house, pouncing on them with lightning-fast reflexes only to realize they're not really there. It's hilarious to watch him in action, and always leaves me laughing.</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="st">Favorite Activities</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="st">In addition to playtime, Mr. Whiskers also enjoys a good scratch behind the ears or under the chin. He'll sit for hours letting me rub his favorite spots, purring contentedly as I work out the knots and tangles in his fur. Another of his favorite activities is lounging on my lap while I watch TV or read a book.</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="st">Impact on Daily Life</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="st">Despite his small size, Mr. Whiskers has a significant impact on my daily life. He's always there to brighten up my day with his antics and affectionate nature. Whether he's chasing invisible prey or simply curled up in a ball at my feet, Mr. Whiskers is a constant source of comfort and companionship.</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="st">Benefits of Owning a Cat</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="st">One of the many benefits of owning a cat like Mr. Whiskers is the sense of calm and relaxation that comes with having him around. Studies have shown that simply petting a cat can lower your blood pressure, heart rate, and stress levels, making it easier to unwind after a long day.</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="st">Conclusion</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="st">In conclusion, my life would not be complete without Mr. Whiskers by my side. He's more than just a pet – he's a beloved companion, a source of comfort and joy, and an endless source of entertainment. Whether he's chasing invisible prey or simply lounging in the sun, Mr. Whiskers is always up to something interesting.</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="st">Final Thoughts</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="st">As I reflect on my time with Mr. Whiskers, I'm struck by his remarkable adaptability and resilience. Despite his many quirks and eccentricities, he remains a loyal and loving companion who brings endless joy and happiness into my life."""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"5de363ef7dd14903b39cd80a4d975a6a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="87ebd50d-c956-43cd-a61d-3c3caf0a88b8" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(document)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
-<pre><code>4084</code></pre>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"13498c0cd7a945358d903847e6014d9f","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"dac6f9a0e1264d3b8a71e4fbd5a65784","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="b2bc0956-06e6-4a8c-a3c0-6481f23f80f7" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># needle in a haystack</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>niah <span class="op">=</span> <span class="st">"Mr. Whiskers has a dog friend named Mr. Husky"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [niah <span class="op">+</span> document, document <span class="op">+</span> niah, document, niah]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"38f5995d91044b36a46b315b35ef2b86","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="6d3c8659-bacd-4cb0-a1b7-afc6e0da14c8" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastembed <span class="im">import</span> TextEmbedding</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> TextEmbedding()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> <span class="bu">list</span>(embedding_model.embed(documents))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"5a518da1d0f044be98ea39f3e4ecce53","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="0a39ad17-f05a-4cfd-9a4f-b8f9f7a5ec19" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.local.distances <span class="im">import</span> cosine_similarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"e600f2842ede49c3b7f538867e46b13a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
 </div>
-<div id="5a28c49a-86ec-4439-a126-c16bebbf8dd6" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>queries <span class="op">=</span> [<span class="st">"Who is Mr. Husky?"</span>]</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>query_embeddings <span class="op">=</span> <span class="bu">list</span>(embedding_model.query_embed(queries))</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cosine_similarity(np.array(query_embeddings), np.array(embeddings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="43">
-<pre><code>array([[0.5864911 , 0.53275806, 0.53275806, 0.71727777]], dtype=float32)</code></pre>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"aa396e1c84be482d885cf110db448db7","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"e8c2a2a1f764433aa150e9ae672be40b","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"0ecdb7f7916b4fd5a8a8d4be2448f8eb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"06b141c030dd4492bea32a57f7627332","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;doctag&gt;&lt;picture&gt;&lt;loc_40&gt;&lt;loc_14&gt;&lt;loc_110&gt;&lt;loc_32&gt;&lt;logo&gt;&lt;/picture&gt;
+&lt;section_header_level_1&gt;&lt;loc_40&gt;&lt;loc_61&gt;&lt;loc_421&gt;&lt;loc_94&gt;US equity bull market remains intact despite fragile sentiment&lt;/section_header_level_1&gt;
+&lt;section_header_level_1&gt;&lt;loc_40&gt;&lt;loc_97&gt;&lt;loc_176&gt;&lt;loc_107&gt;UBS House View - Daily US&lt;/section_header_level_1&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_116&gt;&lt;loc_285&gt;&lt;loc_147&gt;Ulrike Hoffmann-Burchardi, Head CIO Global Equities, UBS Financial Services Inc. (UBS FS) Solita Marcelli, GWM Chief Investment Officer Americas, UBS Financial Services Inc. (UBS FS) Mark Haeefe, Global Wealth Management Chief Investment Officer, UBS AG David Lefkowitz, CFA, CIO Head of US Equities, UBS Financial Services Inc. (UBS FS) Sundeep Gantori, CFA, CAIA, Equity Strategist, UBS AG Singapore Branch Daisy Teng, Strategist, UBS AG Singapore Branch&lt;/text&gt;
+&lt;section_header_level_1&gt;&lt;loc_40&gt;&lt;loc_170&gt;&lt;loc_103&gt;&lt;loc_176&gt;From the studio:&lt;/section_header_level_1&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_178&gt;&lt;loc_300&gt;&lt;loc_192&gt;Video: CIO Mark Haeefele's on investing through heightened political uncertainty (3:40)&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_194&gt;&lt;loc_300&gt;&lt;loc_208&gt;Podcast: The Al sector playbook after NVIDIA's results, with Sundeep, Wayne, and Jon (11:10)&lt;/text&gt;
+&lt;section_header_level_1&gt;&lt;loc_40&gt;&lt;loc_215&gt;&lt;loc_114&gt;&lt;loc_221&gt;Thought of the day&lt;/section_header_level_1&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_223&gt;&lt;loc_300&gt;&lt;loc_245&gt;Investor sentiment took another hit on Thursday amid fresh tariff headlines and concerns over NVIDIA's near-term growth outlook, with the S&amp;P 500 falling 1.6%, erasing all of its gains for the year. The Nasdaq was down 2.8%.&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_255&gt;&lt;loc_300&gt;&lt;loc_293&gt;US President Donald Trump said his proposed 25% tariffs on Mexican and Canadian goods will take effect on 4 March, alongside an extra 10% duty on Chinese imports on top of the 10% tariffs that went into effect early February. He added that fentanyl was still coming into the US from these countries "at very high and unacceptable levels."&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_301&gt;&lt;loc_300&gt;&lt;loc_338&gt;Investors have had to contend with fast-moving headlines over the past few weeks and months-the Federal Reserve's signal of a slower pace of monetary easing, sticky inflation readings, the emergence of low-cost AI models like DeepSeek, weaker consumer confidence, and still-elevated geopolitical uncertainty in the Middle East and over the war in Ukraine.&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_347&gt;&lt;loc_300&gt;&lt;loc_400&gt;Indeed, data points are showing that investor sentiment is poor. Earlier this week, the American Association of Individual Investors (AAI) reported that only 19% of respondents to their weekly survey are expecting stocks to be higher over the next six months. This is lower than 98% of all observations since the survey started in 1987. More technical measures of investor sentiment, such as the put-call ratio, also suggest high levels of investor fear.&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_409&gt;&lt;loc_300&gt;&lt;loc_431&gt;But while we have cautioned that volatility is likely to be higher this year due to policy uncertainty and trade frictions, we reiterate our view that the bull market is intact, and we expect US equities to end the year higher.&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_439&gt;&lt;loc_300&gt;&lt;loc_453&gt;Very low sentiment readings tend to be a contrarian indicator. Perhaps somewhat counterintuitively, stocks typically perform well after poor&lt;/text&gt;
+&lt;text&gt;&lt;loc_40&gt;&lt;loc_464&gt;&lt;loc_444&gt;&lt;loc_479&gt;This report has been prepared by UBS Financial Services Inc. (UBS FS), UBS AG, UBS AG Singapore Branch. Please see important disclaimers and disclosures at the end of the document.&lt;/text&gt;
+&lt;text&gt;&lt;loc_310&gt;&lt;loc_14&gt;&lt;loc_400&gt;&lt;loc_34&gt;28 February 2025, 11:29AM UTC Chief Investment Office GWM Investment Research&lt;/text&gt;
+&lt;section_header_level_1&gt;&lt;loc_310&gt;&lt;loc_170&gt;&lt;loc_423&gt;&lt;loc_176&gt;What to watch: 3 March 2025&lt;/section_header_level_1&gt;
+&lt;unordered_list&gt;&lt;list_item&gt;&lt;loc_310&gt;&lt;loc_178&gt;&lt;loc_424&gt;&lt;loc_184&gt;· US ISM manufacturing survey&lt;/list_item&gt;
+&lt;list_item&gt;&lt;loc_310&gt;&lt;loc_189&gt;&lt;loc_450&gt;&lt;loc_203&gt;· Eurozone flash estimate of consumer price inflation for February&lt;/list_item&gt;
+&lt;/unordered_list&gt;
+&lt;/doctag&gt;&lt;end_of_utterance&gt;
+&lt;!-- image --&gt;
+
+## US equity bull market remains intact despite fragile sentiment
+
+## UBS House View - Daily US
+
+Ulrike Hoffmann-Burchardi, Head CIO Global Equities, UBS Financial Services Inc. (UBS FS) Solita Marcelli, GWM Chief Investment Officer Americas, UBS Financial Services Inc. (UBS FS) Mark Haeefe, Global Wealth Management Chief Investment Officer, UBS AG David Lefkowitz, CFA, CIO Head of US Equities, UBS Financial Services Inc. (UBS FS) Sundeep Gantori, CFA, CAIA, Equity Strategist, UBS AG Singapore Branch Daisy Teng, Strategist, UBS AG Singapore Branch
+
+## From the studio:
+
+Video: CIO Mark Haeefele's on investing through heightened political uncertainty (3:40)
+
+Podcast: The Al sector playbook after NVIDIA's results, with Sundeep, Wayne, and Jon (11:10)
+
+## Thought of the day
+
+Investor sentiment took another hit on Thursday amid fresh tariff headlines and concerns over NVIDIA's near-term growth outlook, with the S&amp;amp;P 500 falling 1.6%, erasing all of its gains for the year. The Nasdaq was down 2.8%.
+
+US President Donald Trump said his proposed 25% tariffs on Mexican and Canadian goods will take effect on 4 March, alongside an extra 10% duty on Chinese imports on top of the 10% tariffs that went into effect early February. He added that fentanyl was still coming into the US from these countries "at very high and unacceptable levels."
+
+Investors have had to contend with fast-moving headlines over the past few weeks and months-the Federal Reserve's signal of a slower pace of monetary easing, sticky inflation readings, the emergence of low-cost AI models like DeepSeek, weaker consumer confidence, and still-elevated geopolitical uncertainty in the Middle East and over the war in Ukraine.
+
+Indeed, data points are showing that investor sentiment is poor. Earlier this week, the American Association of Individual Investors (AAI) reported that only 19% of respondents to their weekly survey are expecting stocks to be higher over the next six months. This is lower than 98% of all observations since the survey started in 1987. More technical measures of investor sentiment, such as the put-call ratio, also suggest high levels of investor fear.
+
+But while we have cautioned that volatility is likely to be higher this year due to policy uncertainty and trade frictions, we reiterate our view that the bull market is intact, and we expect US equities to end the year higher.
+
+Very low sentiment readings tend to be a contrarian indicator. Perhaps somewhat counterintuitively, stocks typically perform well after poor
+
+This report has been prepared by UBS Financial Services Inc. (UBS FS), UBS AG, UBS AG Singapore Branch. Please see important disclaimers and disclosures at the end of the document.
+
+28 February 2025, 11:29AM UTC Chief Investment Office GWM Investment Research
+
+## What to watch: 3 March 2025
+
+- · US ISM manufacturing survey
+- · Eurozone flash estimate of consumer price inflation for February</code></pre>
 </div>
 </div>
-<p>We can observe that the 2nd and 3rd document has the same similarity scores. This is because the document is too long is truncated before passing into the embedding model.</p>
 
 
 
