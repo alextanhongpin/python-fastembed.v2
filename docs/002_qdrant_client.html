@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qdrant_client – python applied machine learning</title>
+<title>Vector Database – python applied machine learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_qdrant_client.html">002 Qdrant Client</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_qdrant_client.html">Vector Database</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -141,13 +141,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./001_basic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Dense text embedding</span></a>
+ <span class="menu-text">Text Embedding</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./002_qdrant_client.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">002 Qdrant Client</span></a>
+ <span class="menu-text">Vector Database</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -224,6 +224,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ss101_001_basic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Semantic Search 101: Build your first Semantic Search Engine in 5 minutes</span></a>
   </div>
@@ -251,22 +257,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="header-section-number">1</span> Goal</a></li>
+  <li><a href="#preparing-metadata" id="toc-preparing-metadata" class="nav-link" data-scroll-target="#preparing-metadata"><span class="header-section-number">2</span> Preparing Metadata</a></li>
+  <li><a href="#adding-documents-to-collection" id="toc-adding-documents-to-collection" class="nav-link" data-scroll-target="#adding-documents-to-collection"><span class="header-section-number">3</span> Adding documents to collection</a></li>
+  <li><a href="#querying-documents" id="toc-querying-documents" class="nav-link" data-scroll-target="#querying-documents"><span class="header-section-number">4</span> Querying documents</a></li>
+  <li><a href="#narrowing-search-with-filters" id="toc-narrowing-search-with-filters" class="nav-link" data-scroll-target="#narrowing-search-with-filters"><span class="header-section-number">5</span> Narrowing search with filters</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Vector Database</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="goal" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="goal"><span class="header-section-number">1</span> Goal</h2>
+<p>In this notebook, we will explore the vector database <code>Qdrant</code>. We will index and query the documents.</p>
 <div id="471ea3b7-fc2d-436d-8de3-d0ad930cd103" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> QdrantClient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="15169300-088d-4ef4-a629-e6641dc8a330" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># client = QdrantClient(":memory:")</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> QdrantClient(<span class="st">":memory:"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> QdrantClient(path<span class="op">=</span><span class="st">"tmp/tmp.db"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># client = QdrantClient(path="tmp/tmp.db")</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># client.close()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="2a1668fc-0664-438f-a56d-51bf129f2fe9" class="cell" data-execution_count="3">
@@ -295,53 +330,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dogs have a unique nose print, just like humans have fingerprints."</span>,</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="preparing-metadata" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="preparing-metadata"><span class="header-section-number">2</span> Preparing Metadata</h2>
 <div id="d34289bb-8af3-496e-bd4b-d77bfdfaeddd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> cat_facts <span class="op">+</span> dog_facts</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>metadata <span class="op">=</span> [{<span class="st">"source"</span>: <span class="st">"cats"</span>}] <span class="op">*</span> <span class="bu">len</span>(cat_facts) <span class="op">+</span> [{<span class="st">"source"</span>: <span class="st">"dogs"</span>}] <span class="op">*</span> <span class="bu">len</span>(dog_facts)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ids <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(docs)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1cc17e50-3269-4314-bfaa-7d3927e40f11" class="cell" data-execution_count="5">
+</section>
+<section id="adding-documents-to-collection" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="adding-documents-to-collection"><span class="header-section-number">3</span> Adding documents to collection</h2>
+<p>Below, we add the documents together with the metadatas and ids to our vector database. The default embedding is used if we did not specify them</p>
+<div id="1cc17e50-3269-4314-bfaa-7d3927e40f11" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>client.add(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"cats_and_dogs"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>docs,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    metadata<span class="op">=</span>metadata,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    ids<span class="op">=</span>ids,</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</code></pre>
 </div>
 </div>
+<div id="1d427af3-d737-43bf-a330-3f8ec478f82b" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default embedding used.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(client.embedding_model_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>BAAI/bge-small-en</code></pre>
+</div>
+</div>
+</section>
+<section id="querying-documents" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="querying-documents"><span class="header-section-number">4</span> Querying documents</h2>
 <div id="70c8b779-425b-4419-b4ce-2f72922dcef3" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>search_result <span class="op">=</span> client.query(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"cats_and_dogs"</span>, query_text<span class="op">=</span><span class="st">"what is the cat whisker for?"</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>search_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>search_result <span class="op">=</span> client.query(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"cats_and_dogs"</span>, query_text<span class="op">=</span><span class="st">"what is the cat whisker for?"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>search_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>[QueryResponse(id=3, embedding=None, sparse_embedding=None, metadata={'document': "A cat's whiskers help them navigate in the dark.", 'source': 'cats'}, document="A cat's whiskers help them navigate in the dark.", score=0.8960122052835192),
- QueryResponse(id=1, embedding=None, sparse_embedding=None, metadata={'document': "A group of cats is called a 'clowder'.", 'source': 'cats'}, document="A group of cats is called a 'clowder'.", score=0.8371795647410071),
- QueryResponse(id=6, embedding=None, sparse_embedding=None, metadata={'document': "A cat's purr can be a sign of happiness or self-soothing.", 'source': 'cats'}, document="A cat's purr can be a sign of happiness or self-soothing.", score=0.8254998513657924),
- QueryResponse(id=4, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have three eyelids: upper, lower, and third (also known as nictitating membrane).', 'source': 'cats'}, document='Cats have three eyelids: upper, lower, and third (also known as nictitating membrane).', score=0.8023456208085149),
- QueryResponse(id=7, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have unique nose prints, just like humans have fingerprints.', 'source': 'cats'}, document='Cats have unique nose prints, just like humans have fingerprints.', score=0.7981833555293472),
- QueryResponse(id=0, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have 32 muscles in each ear, allowing for their unique ability to rotate their ears independently.', 'source': 'cats'}, document='Cats have 32 muscles in each ear, allowing for their unique ability to rotate their ears independently.', score=0.7954061802722565),
- QueryResponse(id=2, embedding=None, sparse_embedding=None, metadata={'document': "Cats can't taste sweetness.", 'source': 'cats'}, document="Cats can't taste sweetness.", score=0.7869827666131266),
- QueryResponse(id=5, embedding=None, sparse_embedding=None, metadata={'document': 'Cats spend 1/3 of their waking hours sleeping.', 'source': 'cats'}, document='Cats spend 1/3 of their waking hours sleeping.', score=0.780144426020518),
- QueryResponse(id=19, embedding=None, sparse_embedding=None, metadata={'document': 'Dogs have a unique nose print, just like humans have fingerprints.', 'source': 'dogs'}, document='Dogs have a unique nose print, just like humans have fingerprints.', score=0.7677822913415793),
- QueryResponse(id=12, embedding=None, sparse_embedding=None, metadata={'document': "A group of dogs is called a 'pack'.", 'source': 'dogs'}, document="A group of dogs is called a 'pack'.", score=0.7629267110754824)]</code></pre>
+<pre><code>[QueryResponse(id=3, embedding=None, sparse_embedding=None, metadata={'document': "A cat's whiskers help them navigate in the dark.", 'source': 'cats'}, document="A cat's whiskers help them navigate in the dark.", score=0.8960122317479164),
+ QueryResponse(id=1, embedding=None, sparse_embedding=None, metadata={'document': "A group of cats is called a 'clowder'.", 'source': 'cats'}, document="A group of cats is called a 'clowder'.", score=0.8371795788861598),
+ QueryResponse(id=6, embedding=None, sparse_embedding=None, metadata={'document': "A cat's purr can be a sign of happiness or self-soothing.", 'source': 'cats'}, document="A cat's purr can be a sign of happiness or self-soothing.", score=0.8254998482294487),
+ QueryResponse(id=4, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have three eyelids: upper, lower, and third (also known as nictitating membrane).', 'source': 'cats'}, document='Cats have three eyelids: upper, lower, and third (also known as nictitating membrane).', score=0.8023456093614258),
+ QueryResponse(id=7, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have unique nose prints, just like humans have fingerprints.', 'source': 'cats'}, document='Cats have unique nose prints, just like humans have fingerprints.', score=0.798183377158493),
+ QueryResponse(id=0, embedding=None, sparse_embedding=None, metadata={'document': 'Cats have 32 muscles in each ear, allowing for their unique ability to rotate their ears independently.', 'source': 'cats'}, document='Cats have 32 muscles in each ear, allowing for their unique ability to rotate their ears independently.', score=0.7954062431026273),
+ QueryResponse(id=2, embedding=None, sparse_embedding=None, metadata={'document': "Cats can't taste sweetness.", 'source': 'cats'}, document="Cats can't taste sweetness.", score=0.7869827548539508),
+ QueryResponse(id=5, embedding=None, sparse_embedding=None, metadata={'document': 'Cats spend 1/3 of their waking hours sleeping.', 'source': 'cats'}, document='Cats spend 1/3 of their waking hours sleeping.', score=0.7801444313950741),
+ QueryResponse(id=19, embedding=None, sparse_embedding=None, metadata={'document': 'Dogs have a unique nose print, just like humans have fingerprints.', 'source': 'dogs'}, document='Dogs have a unique nose print, just like humans have fingerprints.', score=0.7677823520283983),
+ QueryResponse(id=12, embedding=None, sparse_embedding=None, metadata={'document': "A group of dogs is called a 'pack'.", 'source': 'dogs'}, document="A group of dogs is called a 'pack'.", score=0.7629267089853339)]</code></pre>
 </div>
 </div>
+</section>
+<section id="narrowing-search-with-filters" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="narrowing-search-with-filters"><span class="header-section-number">5</span> Narrowing search with filters</h2>
 <div id="b024fcef-71a6-4c34-bbfd-6842bfa53ba3" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> FieldCondition, Filter, MatchValue</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>search_result <span class="op">=</span> client.query(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"cats_and_dogs"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    query_text<span class="op">=</span><span class="st">"what is the cat whisker for?"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    query_filter<span class="op">=</span>Filter(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        must<span class="op">=</span>[FieldCondition(key<span class="op">=</span><span class="st">"source"</span>, match<span class="op">=</span>MatchValue(value<span class="op">=</span><span class="st">"cats"</span>))]</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> res <span class="kw">in</span> search_result:</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">dict</span>(doc<span class="op">=</span>res.document, score<span class="op">=</span>res.score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> FieldCondition, Filter, MatchValue</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>search_result <span class="op">=</span> client.query(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span><span class="st">"cats_and_dogs"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    query_text<span class="op">=</span><span class="st">"what is the cat whisker for?"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    query_filter<span class="op">=</span>Filter(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        must<span class="op">=</span>[FieldCondition(key<span class="op">=</span><span class="st">"source"</span>, match<span class="op">=</span>MatchValue(value<span class="op">=</span><span class="st">"cats"</span>))]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> res <span class="kw">in</span> search_result:</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">dict</span>(doc<span class="op">=</span>res.document, score<span class="op">=</span>res.score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{'doc': "A cat's whiskers help them navigate in the dark.", 'score': 0.8960122052835192}
 {'doc': "A group of cats is called a 'clowder'.", 'score': 0.8371795647410071}
@@ -357,6 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
